@@ -35,11 +35,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#"><i class="fa fa-th-large"></i></a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                             document.getElementById('logout-form').submit();">
-                                                                {{ __('Logout') }}
-                                                            </a>
-
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();      document.getElementById('logout-form').submit();"> 
+                            {{ __('Logout') }} 
+                        </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
@@ -65,7 +63,7 @@
                         <img src="{{ asset('img/user.jpg') }}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">User Name</a>
+                        <a href="#" class="d-block">{{ auth()->user()->name }}</a>
                     </div>
                 </div>
 
@@ -140,7 +138,7 @@
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                Developed By <a href="{{ config('dev.site_url') }}">{{ config('dev.name') }}</a>
+                Developed By <a href="{{ config('dev.site_url') }}" target="_blank">{{ config('dev.name') }}</a>
             </div>
             <!-- Default to the left -->
             <strong>Copyright &copy; 2014-2018 <a href="">{{ config('app.name') }}</a>.</strong> All rights reserved.
