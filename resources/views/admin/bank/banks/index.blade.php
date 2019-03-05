@@ -10,24 +10,17 @@
                 @csrf
                 <div class="form-group">
                     <label>Name</label>
-                    <input type="text" name="name" class="form-control" placeholder="Enter a bank name" value="{{ old('name') }}">
+                    <input type="text" name="name" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" placeholder="Enter a bank name" value="{{ old('name') }}">
+                    @if ($errors->has('name'))
+                        <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('name') }}</strong></span> 
+                    @endif
                 </div>
-                <div class="form-group">
+                <div class="form-group float-right">
                     <input type="submit" class="btn btn-outline-primary btn-sm" value="Submit">
                 </div>
             </form>
         </div>
     </div>
-
-    @if ($errors->count())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
 </div>
 
 <div class="col-md-6">
