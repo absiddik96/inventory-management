@@ -1,6 +1,6 @@
 <li class="nav-item">
-    <a href="#" class="nav-link active">
-        <i class="fas fa-tachometer-alt"></i>
-        <p>Admin DashBoard</p>
+    <a href="{{ route('admin.banks.index') }}" class="nav-link active">
+        <i class="fa fa-university"></i>
+        <p>Banks</p>
     </a>
 </li>
