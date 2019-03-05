@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Routing\RouteGroup;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +18,7 @@ Route::get('/', 'Auth\LoginController@showLoginForm');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Route::group(['middleware' => ['is_admin']], function () {
+//     Route::get('/test', 'HomeController@test')->name('test');
+// });
