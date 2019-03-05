@@ -11,6 +11,18 @@ window.Vue = require("vue");
 var $ = require("jquery");
 require("datatables.net-bs4")($);
 
+import swal from "sweetalert2";
+window.swal = swal;
+
+const toast = swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000
+});
+
+window.toast = toast;
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

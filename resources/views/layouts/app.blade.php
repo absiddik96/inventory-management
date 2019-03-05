@@ -15,6 +15,7 @@
 
     <link href="{{ url('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
     
+    <link rel="stylesheet" href="{{ asset('sweetalert2/dist/sweetalert2.min.css') }}">
 
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -126,6 +127,7 @@
 
     <!-- jQuery -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset("sweetalert2/dist/sweetalert2.min.js") }}"></script>
     <script>
         $(document).ready( function () {
             $('.dataTable').DataTable( {
@@ -133,5 +135,19 @@
             });
         });
     </script>
+    @if(Session::get('success'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+                Toast.fire({
+                    type: 'success',
+                    title: "{{ Session::get('success') }}"
+                })
+        </script>
+    @endif
 </body>
 >
