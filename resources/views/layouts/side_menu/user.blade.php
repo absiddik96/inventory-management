@@ -1,7 +1,13 @@
 <li class="nav-item">
-    <a href="#" class="nav-link active">
+    <a href="{{ route('home') }}" class="nav-link {{ Request::is('home') ? 'active' : '' }}">
         <i class="fas fa-tachometer-alt"></i>
         <p>DashBoard</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('categories.index') }}" class="nav-link {{ Request::is('product/categories*') ? 'active' : '' }}">
+        <i class="fas fa-tachometer-alt"></i>
+        <p>Category</p>
     </a>
 </li>
 <li class="nav-item has-treeview">

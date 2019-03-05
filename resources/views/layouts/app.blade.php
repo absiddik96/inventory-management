@@ -13,6 +13,9 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <link href="{{ url('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
+    
+
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -121,9 +124,14 @@
     </div>
     <!-- ./wrapper -->
 
-    <!-- REQUIRED SCRIPTS -->
-
     <!-- jQuery -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        $(document).ready( function () {
+            $('.dataTable').DataTable( {
+                responsive: true
+            });
+        });
+    </script>
 </body>
 >

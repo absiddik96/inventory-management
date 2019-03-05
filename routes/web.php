@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Routing\RouteGroup;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +17,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::group(['middleware' => ['is_admin']], function () {
-//     Route::get('/test', 'HomeController@test')->name('test');
-// });
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('product/categories', 'ProductCategoriesController');
+});
