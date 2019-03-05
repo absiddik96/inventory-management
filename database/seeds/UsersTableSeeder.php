@@ -14,18 +14,18 @@ class UsersTableSeeder extends Seeder
     {
         User::create(array(
 
-            'name'    => 'Admin',
-            'email'         => 'admin@gmail.com',
-            'password'      => bcrypt('123456'), //hashes our password nicely for us
+            'name'      => 'Admin',
+            'email'     => 'admin@gmail.com',
+            'password'  => bcrypt('123456'), //hashes our password nicely for us
             'is_admin'  => 1,
 
         ));
 
         User::create(array(
 
-            'name'    => 'Regular User',
-            'email'         => 'user@gmail.com',
-            'password'      => bcrypt('123456'), //hashes our password nicely for us
+            'name'      => 'Regular User',
+            'email'     => 'user@gmail.com',
+            'password'  => bcrypt('123456'), //hashes our password nicely for us
             'is_admin'  => 0,
 
         ));
