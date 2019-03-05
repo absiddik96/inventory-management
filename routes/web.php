@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::group(['middleware' => ['is_admin']], function () {
-//     Route::get('/test', 'HomeController@test')->name('test');
-// });
+Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
+    // Banks
+    Route::resource('/banks', 'Admin\Bank\BanksController', ['as' => 'admin'])->except('destroy');
+    Route::get('/banks/{bank}', 'Admin\Bank\BanksController@destroy', ['as' => 'admin'])->name('admin.banks.destroy');
+});
