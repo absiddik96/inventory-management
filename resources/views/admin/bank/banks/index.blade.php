@@ -55,7 +55,6 @@
                                                 'action' => route('admin.banks.destroy', $bank->id),
                                                 'id' => $bank->id
                                             ])
-
                                         </td>
                                     </tr>
                                 @endforeach
