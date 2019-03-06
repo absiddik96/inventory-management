@@ -13,7 +13,7 @@
                     <input type="text" name="name" class="form-control" placeholder="Enter a bank name" value="{{ $bank->name }}">
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-outline-primary btn-sm" value="Update">
+                    <input type="submit" class="btn btn-outline-primary btn-sm float-right" value="Update">
                 </div>
             </form>
         </div>

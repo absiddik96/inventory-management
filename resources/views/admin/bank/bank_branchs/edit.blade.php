@@ -12,7 +12,7 @@
             @include('admin.bank.bank_branchs.field')
             
             <div class="form-group">
-                {!! Form::submit('Update', ['class' => 'form-control btn btn-primary']) !!}
+                {!! Form::submit('Update', ['class' => 'btn btn-outline-primary btn-sm float-right']) !!}
             </div>
 
             {!! Form::close() !!}
