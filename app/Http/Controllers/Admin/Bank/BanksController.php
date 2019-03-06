@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Bank;
 
+use Session;
 use App\Models\Bank;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,16 +21,6 @@ class BanksController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,20 +31,11 @@ class BanksController extends Controller
         $attribute = $request->validate([
             'name' => 'required|min: 2|max: 191',
         ]);
-        Bank::create($attribute);
+        if (Bank::create($attribute)) {
+            Session::flash('success', 'Bank has been created successfully');
+        }
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Bank  $bank
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Bank $bank)
-    {
-        //
     }
 
     /**
@@ -64,7 +46,7 @@ class BanksController extends Controller
      */
     public function edit(Bank $bank)
     {
-        return view( 'admin.bank.banks.edit', compact('bank'));
+        return view('admin.bank.banks.edit', compact('bank'));
     }
 
     /**
@@ -79,7 +61,10 @@ class BanksController extends Controller
         $attribute = $request->validate([
             'name' => 'required|min: 2|max: 191',
         ]);
-        $bank->update($attribute);
+
+        if ($bank->update($attribute)) {
+            Session::flash('success', 'Bank has been updated successfully');
+        }
 
         return redirect()->route('admin.banks.index');
     }
@@ -92,7 +77,9 @@ class BanksController extends Controller
      */
     public function destroy(Bank $bank)
     {
-        $bank->delete();
+        if ($bank->delete()) {
+            Session::flash('success', 'Bank has been deleted successfully');
+        }
         return back();
     }
 }
