@@ -26,4 +26,6 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     // Banks
     Route::resource('/banks', 'Admin\Bank\BanksController', ['as' => 'admin'])->except(['create', 'show']);
+    // Bank branchs
+    Route::resource('/bankbranchs', 'Admin\Bank\BankBranchsController', ['as' => 'admin'])->except(['create', 'show']);
 });
