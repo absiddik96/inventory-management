@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="col-md-12">
+<div class="col-md-6">
   <div class="card card-primary card-outline">
         <div class="card-header">
             <h5 class="m-0">Update Product Category</h5>
