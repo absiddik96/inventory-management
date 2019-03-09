@@ -35,4 +35,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     Route::resource('/users', 'Admin\UsersController', ['as' => 'admin'])->except(['show']);
     Route::get('/user/{user}/status', 'Admin\UsersController@status')->name('admin.users.status');
     Route::get('/user/{user}/type', 'Admin\UsersController@type')->name('admin.users.type');
+    // Bank transaction
+    Route::resource('/bank-transactions', 'Admin\Bank\BankTransactionsController', ['as' => 'admin']);
 });
