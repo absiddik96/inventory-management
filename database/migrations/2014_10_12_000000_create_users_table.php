@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_admin')->default(User::REGULAR_USER)->comment('1:admin user,0:regular user');
+            $table->boolean('status')->default(User::DEACTIVE)->comment('1:active,0:deactive');
             $table->rememberToken();
             $table->timestamps();
         });
