@@ -12,6 +12,8 @@ class User extends Authenticatable
 
     const ADMIN_USER = true;
     const REGULAR_USER = false;
+    const ACTIVE = true;
+    const DEACTIVE = false;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','is_admin','status'
     ];
 
     /**
