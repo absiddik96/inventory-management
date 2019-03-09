@@ -28,3 +28,11 @@
         <p>Bank Accounts</p>
     </a>
 </li>
+
+{{-- Packet Sizes --}}
+<li class="nav-item">
+    <a href="{{ route('admin.packet-sizes.index') }}" class="nav-link {{ Request::is('admin/packet-sizes*') ? 'active' : '' }}">
+        <i class="fas fa-circle-notch"></i>
+        <p>Packet Sizes</p>
+    </a>
+</li>

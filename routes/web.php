@@ -35,4 +35,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     Route::resource('/users', 'Admin\UsersController', ['as' => 'admin'])->except(['show']);
     Route::get('/user/{user}/status', 'Admin\UsersController@status')->name('admin.users.status');
     Route::get('/user/{user}/type', 'Admin\UsersController@type')->name('admin.users.type');
+    // Packet sizes
+    Route::resource('/packet-sizes', 'Admin\PacketSizesController', ['as' => 'admin'])->except(['create', 'show']);
 });
