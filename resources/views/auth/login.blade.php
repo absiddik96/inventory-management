@@ -21,6 +21,14 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
+                    @if(count( $errors ) > 0)
+                        <div class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                                <h5>{{ $error }}</h5>
+                            @endforeach
+                        </div>
+                    @endif
+
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="input-group mb-3">
