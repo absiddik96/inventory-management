@@ -5,22 +5,25 @@
  */
 
 require("./bootstrap");
-
 window.Vue = require("vue");
+import { Form, HasError, AlertError } from 'vform'
+
+window.Form = Form;
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
 
 var $ = require("jquery");
-require("datatables.net-bs4")($);
+require("datatables.net-bs4");
 
 import swal from "sweetalert2";
-window.swal = swal;
-
 const toast = swal.mixin({
     toast: true,
     position: "top-end",
     showConfirmButton: false,
     timer: 3000
 });
-
+window.Fire = new Vue();
+window.swal = swal;
 window.toast = toast;
 
 /**
@@ -32,6 +35,15 @@ window.toast = toast;
 Vue.component(
     "example-component",
     require("./components/ExampleComponent.vue")
+);
+
+Vue.component(
+    "bank-transaction",
+    require("./components/bank_transactions/Index.vue")
+);
+Vue.component(
+    "bank-transaction-add",
+    require("./components/bank_transactions/Transaction.vue")
 );
 
 const app = new Vue({

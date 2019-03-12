@@ -17,4 +17,24 @@ class BankAccount extends Model
     {
         return $this->belongsTo(BankBranch::class);
     }
+
+    public function bankTransactions()
+    {
+        return $this->hasMany(BankTransaction::class);
+    }
+
+    public function totalCredit()
+    {
+        return $this->bankTransactions()->where('transaction_type',1)->sum('amount');
+    }
+
+    public function totalDebit()
+    {
+        return $this->bankTransactions()->where('transaction_type',0)->sum('amount');
+    }
+
+    public function totalAmount()
+    {
+        return ($this->totalCredit() - $this->totalDebit());
+    }
 }
