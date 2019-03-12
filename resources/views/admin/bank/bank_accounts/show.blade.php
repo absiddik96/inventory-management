@@ -16,9 +16,9 @@
                 <div class="col-md-8">
                     <table class="table no-border">
                         <tr>
-                            <td width="15%">Bank</td>
+                            <td width="25%">Bank</td>
                             <td width="1%">:</td>
-                            <td width="84">{{ $bankAccount->bank->name }}</td>
+                            <td width="74%">{{ $bankAccount->bank->name }}</td>
                         </tr>
                         <tr>
                             <td>Branch</td>
@@ -48,7 +48,7 @@
                     </table>
                 </div>
                 <div class="col-md-4">
-                    <h1 class="total-amount">Total Amount: <span style="font-size: 25px">৳{{ $bankAccount->totalAmount() }}</span></h1>
+                    <h3 class="total-amount">Total Amount: <span style="font-size: 25px">৳{{ $bankAccount->totalAmount() }}</span></h3>
                 </div>
             </div>
             <div class="float-right">

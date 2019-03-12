@@ -49825,191 +49825,179 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables B
  * controls using Bootstrap. See http://datatables.net/manual/styling/bootstrap
  * for further information.
  */
-(function(factory) {
-    if (true) {
-        // AMD
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2), __webpack_require__(44)], __WEBPACK_AMD_DEFINE_RESULT__ = (function($) {
-            return factory($, window, document);
-        }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+(function( factory ){
+	if ( true ) {
+		// AMD
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2), __webpack_require__(44)], __WEBPACK_AMD_DEFINE_RESULT__ = (function ( $ ) {
+			return factory( $, window, document );
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else if (typeof exports === "object") {
-        // CommonJS
-        module.exports = function(root, $) {
-            if (!root) {
-                root = window;
-            }
+	}
+	else if ( typeof exports === 'object' ) {
+		// CommonJS
+		module.exports = function (root, $) {
+			if ( ! root ) {
+				root = window;
+			}
 
-            if (!$ || !$.fn.dataTable) {
-                // Require DataTables, which attaches to jQuery, including
-                // jQuery if needed and have a $ property so we can access the
-                // jQuery object that is used
-                $ = require("datatables.net")(root, $).$;
-            }
+			if ( ! $ || ! $.fn.dataTable ) {
+				// Require DataTables, which attaches to jQuery, including
+				// jQuery if needed and have a $ property so we can access the
+				// jQuery object that is used
+				$ = require('datatables.net')(root, $).$;
+			}
 
-            return factory($, root, root.document);
-        };
-    } else {
-        // Browser
-        factory(jQuery, window, document);
-    }
-})(function($, window, document, undefined) {
-    "use strict";
-    var DataTable = $.fn.dataTable;
+			return factory( $, root, root.document );
+		};
+	}
+	else {
+		// Browser
+		factory( jQuery, window, document );
+	}
+}(function( $, window, document, undefined ) {
+'use strict';
+var DataTable = $.fn.dataTable;
 
-    /* Set the defaults for DataTables initialisation */
-    $.extend(true, DataTable.defaults, {
-        dom:
-            "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-        renderer: "bootstrap"
-    });
 
-    /* Default class modification */
-    $.extend(DataTable.ext.classes, {
-        sWrapper: "dataTables_wrapper dt-bootstrap4",
-        sFilterInput: "form-control form-control-sm",
-        sLengthSelect:
-            "custom-select custom-select-sm form-control form-control-sm",
-        sProcessing: "dataTables_processing card",
-        sPageButton: "paginate_button page-item"
-    });
+/* Set the defaults for DataTables initialisation */
+$.extend( true, DataTable.defaults, {
+	dom:
+		"<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+		"<'row'<'col-sm-12'tr>>" +
+		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+	renderer: 'bootstrap'
+} );
 
-    /* Bootstrap paging button renderer */
-    DataTable.ext.renderer.pageButton.bootstrap = function(
-        settings,
-        host,
-        idx,
-        buttons,
-        page,
-        pages
-    ) {
-        var api = new DataTable.Api(settings);
-        var classes = settings.oClasses;
-        var lang = settings.oLanguage.oPaginate;
-        var aria = settings.oLanguage.oAria.paginate || {};
-        var btnDisplay,
-            btnClass,
-            counter = 0;
 
-        var attach = function(container, buttons) {
-            var i, ien, node, button;
-            var clickHandler = function(e) {
-                e.preventDefault();
-                if (
-                    !$(e.currentTarget).hasClass("disabled") &&
-                    api.page() != e.data.action
-                ) {
-                    api.page(e.data.action).draw("page");
-                }
-            };
+/* Default class modification */
+$.extend( DataTable.ext.classes, {
+	sWrapper:      "dataTables_wrapper dt-bootstrap4",
+	sFilterInput:  "form-control form-control-sm",
+	sLengthSelect: "custom-select custom-select-sm form-control form-control-sm",
+	sProcessing:   "dataTables_processing card",
+	sPageButton:   "paginate_button page-item"
+} );
 
-            for (i = 0, ien = buttons.length; i < ien; i++) {
-                button = buttons[i];
 
-                if ($.isArray(button)) {
-                    attach(container, button);
-                } else {
-                    btnDisplay = "";
-                    btnClass = "";
+/* Bootstrap paging button renderer */
+DataTable.ext.renderer.pageButton.bootstrap = function ( settings, host, idx, buttons, page, pages ) {
+	var api     = new DataTable.Api( settings );
+	var classes = settings.oClasses;
+	var lang    = settings.oLanguage.oPaginate;
+	var aria = settings.oLanguage.oAria.paginate || {};
+	var btnDisplay, btnClass, counter=0;
 
-                    switch (button) {
-                        case "ellipsis":
-                            btnDisplay = "&#x2026;";
-                            btnClass = "disabled";
-                            break;
+	var attach = function( container, buttons ) {
+		var i, ien, node, button;
+		var clickHandler = function ( e ) {
+			e.preventDefault();
+			if ( !$(e.currentTarget).hasClass('disabled') && api.page() != e.data.action ) {
+				api.page( e.data.action ).draw( 'page' );
+			}
+		};
 
-                        case "first":
-                            btnDisplay = lang.sFirst;
-                            btnClass = button + (page > 0 ? "" : " disabled");
-                            break;
+		for ( i=0, ien=buttons.length ; i<ien ; i++ ) {
+			button = buttons[i];
 
-                        case "previous":
-                            btnDisplay = lang.sPrevious;
-                            btnClass = button + (page > 0 ? "" : " disabled");
-                            break;
+			if ( $.isArray( button ) ) {
+				attach( container, button );
+			}
+			else {
+				btnDisplay = '';
+				btnClass = '';
 
-                        case "next":
-                            btnDisplay = lang.sNext;
-                            btnClass =
-                                button + (page < pages - 1 ? "" : " disabled");
-                            break;
+				switch ( button ) {
+					case 'ellipsis':
+						btnDisplay = '&#x2026;';
+						btnClass = 'disabled';
+						break;
 
-                        case "last":
-                            btnDisplay = lang.sLast;
-                            btnClass =
-                                button + (page < pages - 1 ? "" : " disabled");
-                            break;
+					case 'first':
+						btnDisplay = lang.sFirst;
+						btnClass = button + (page > 0 ?
+							'' : ' disabled');
+						break;
 
-                        default:
-                            btnDisplay = button + 1;
-                            btnClass = page === button ? "active" : "";
-                            break;
-                    }
+					case 'previous':
+						btnDisplay = lang.sPrevious;
+						btnClass = button + (page > 0 ?
+							'' : ' disabled');
+						break;
 
-                    if (btnDisplay) {
-                        node = $("<li>", {
-                            class: classes.sPageButton + " " + btnClass,
-                            id:
-                                idx === 0 && typeof button === "string"
-                                    ? settings.sTableId + "_" + button
-                                    : null
-                        })
-                            .append(
-                                $("<a>", {
-                                    href: "#",
-                                    "aria-controls": settings.sTableId,
-                                    "aria-label": aria[button],
-                                    "data-dt-idx": counter,
-                                    tabindex: settings.iTabIndex,
-                                    class: "page-link"
-                                }).html(btnDisplay)
-                            )
-                            .appendTo(container);
+					case 'next':
+						btnDisplay = lang.sNext;
+						btnClass = button + (page < pages-1 ?
+							'' : ' disabled');
+						break;
 
-                        settings.oApi._fnBindAction(
-                            node,
-                            { action: button },
-                            clickHandler
-                        );
+					case 'last':
+						btnDisplay = lang.sLast;
+						btnClass = button + (page < pages-1 ?
+							'' : ' disabled');
+						break;
 
-                        counter++;
-                    }
-                }
-            }
-        };
+					default:
+						btnDisplay = button + 1;
+						btnClass = page === button ?
+							'active' : '';
+						break;
+				}
 
-        // IE9 throws an 'unknown error' if document.activeElement is used
-        // inside an iframe or frame.
-        var activeEl;
+				if ( btnDisplay ) {
+					node = $('<li>', {
+							'class': classes.sPageButton+' '+btnClass,
+							'id': idx === 0 && typeof button === 'string' ?
+								settings.sTableId +'_'+ button :
+								null
+						} )
+						.append( $('<a>', {
+								'href': '#',
+								'aria-controls': settings.sTableId,
+								'aria-label': aria[ button ],
+								'data-dt-idx': counter,
+								'tabindex': settings.iTabIndex,
+								'class': 'page-link'
+							} )
+							.html( btnDisplay )
+						)
+						.appendTo( container );
 
-        try {
-            // Because this approach is destroying and recreating the paging
-            // elements, focus is lost on the select button which is bad for
-            // accessibility. So we want to restore focus once the draw has
-            // completed
-            activeEl = $(host)
-                .find(document.activeElement)
-                .data("dt-idx");
-        } catch (e) {}
+					settings.oApi._fnBindAction(
+						node, {action: button}, clickHandler
+					);
 
-        attach(
-            $(host)
-                .empty()
-                .html('<ul class="pagination"/>')
-                .children("ul"),
-            buttons
-        );
+					counter++;
+				}
+			}
+		}
+	};
 
-        if (activeEl !== undefined) {
-            $(host)
-                .find("[data-dt-idx=" + activeEl + "]")
-                .focus();
-        }
-    };
+	// IE9 throws an 'unknown error' if document.activeElement is used
+	// inside an iframe or frame. 
+	var activeEl;
 
-    return DataTable;
-});
+	try {
+		// Because this approach is destroying and recreating the paging
+		// elements, focus is lost on the select button which is bad for
+		// accessibility. So we want to restore focus once the draw has
+		// completed
+		activeEl = $(host).find(document.activeElement).data('dt-idx');
+	}
+	catch (e) {}
+
+	attach(
+		$(host).empty().html('<ul class="pagination float-right"/>').children('ul'),
+		buttons
+	);
+
+	if ( activeEl !== undefined ) {
+		$(host).find( '[data-dt-idx='+activeEl+']' ).focus();
+	}
+};
+
+
+return DataTable;
+}));
 
 
 /***/ }),
@@ -64424,7 +64412,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 		"sWrapper": "dataTables_wrapper",
 		"sFilter": "dataTables_filter float-right",
 		"sInfo": "dataTables_info",
-		"sPaging": "dataTables_paginate float-right paging_", /* Note that the type is postfixed */
+		"sPaging": "dataTables_paginate paging_", /* Note that the type is postfixed */
 		"sLength": "dataTables_length",
 		"sProcessing": "dataTables_processing",
 	
@@ -68966,7 +68954,7 @@ var render = function() {
                                 },
                                 [
                                   _c("option", { attrs: { value: "" } }, [
-                                    _vm._v("Choose Bank")
+                                    _vm._v("Choose bank")
                                   ]),
                                   _vm._v(" "),
                                   _vm._l(_vm.banks, function(bank, index) {
@@ -69041,7 +69029,7 @@ var render = function() {
                                 },
                                 [
                                   _c("option", { attrs: { value: "" } }, [
-                                    _vm._v("Choose Bank Account")
+                                    _vm._v("Choose bank account")
                                   ]),
                                   _vm._v(" "),
                                   _vm._l(_vm.bank_accounts, function(
@@ -69181,7 +69169,7 @@ var render = function() {
                                 },
                                 [
                                   _c("option", { attrs: { value: "" } }, [
-                                    _vm._v("Choose Branch")
+                                    _vm._v("Choose branch")
                                   ]),
                                   _vm._v(" "),
                                   _vm._l(_vm.branches, function(branch, index) {
@@ -69256,7 +69244,7 @@ var render = function() {
                                 },
                                 [
                                   _c("option", { attrs: { value: "" } }, [
-                                    _vm._v("Choose Branch")
+                                    _vm._v("Choose transaction type")
                                   ]),
                                   _vm._v(" "),
                                   _c("option", { attrs: { value: "0" } }, [

@@ -18,7 +18,7 @@
                                 <div class="form-group">
                                     <label for="">Bank</label>
                                     <select @change="getBankAccounts()" name="bank" id="" class="form-control " v-model="form.bank" :class="{ 'is-invalid': form.errors.has('bank')}">
-                                        <option value="">Choose Bank</option>
+                                        <option value="">Choose bank</option>
                                         <option v-for="(bank,index) in banks" :key="index" :value="bank.id">{{ bank.name }}</option>
                                     </select>
                                     <has-error :form="form" field="bank"></has-error>
@@ -28,7 +28,7 @@
                                     <label for="">Bank Account</label>
                                     <!-- <input v-if="form.bank == '' && form.branch == ''" type="text" class="form-control"> -->
                                     <select name="bank_account" class="form-control " v-model="form.bank_account" :class="{ 'is-invalid': form.errors.has('bank_account')}">
-                                        <option value="">Choose Bank Account</option>
+                                        <option value="">Choose bank account</option>
                                         <option v-for="(bank_account,index) in bank_accounts" :key="index" :value="bank_account.id">{{ bank_account.account_number+' ('+bank_account.account_holder+')' }}</option>
                                     </select>
                                     <has-error :form="form" field="bank_account"></has-error>
@@ -49,7 +49,7 @@
                                 <div class="form-group">
                                     <label for="">Bank Branch</label>
                                     <select @change="getBankAccounts()" name="branch" id="" class="form-control " v-model="form.branch" :class="{ 'is-invalid': form.errors.has('branch')}">
-                                        <option value="">Choose Branch</option>
+                                        <option value="">Choose branch</option>
                                         <option v-for="(branch,index) in branches" :key="index" :value="branch.id">{{ branch.name }}</option>
                                     </select>
                                     <has-error :form="form" field="branch"></has-error>
@@ -58,7 +58,7 @@
                                 <div class="form-group">
                                     <label for="">Transaction Type</label>
                                     <select name="transaction_type" id="" class="form-control " v-model="form.transaction_type" :class="{ 'is-invalid': form.errors.has('transaction_type')}">
-                                        <option value="">Choose Branch</option>
+                                        <option value="">Choose transaction type</option>
                                         <option value="0">Debit</option>
                                         <option value="1">Credit</option>
                                         
