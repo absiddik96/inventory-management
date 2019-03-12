@@ -31,10 +31,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     // Bank accounts
     Route::resource('/bank-accounts', 'Admin\Bank\BankAccountsController', ['as' => 'admin']);
     Route::get('/bank-account/{bankAccount}/activation', 'Admin\Bank\BankAccountsController@active', ['as' => 'admin'])->name('admin.bank-accounts.active');
+    Route::get('/bank-account/{bank_id}/branch/{branch_id}', 'Admin\Bank\BankAccountsController@bankAccountsByBankBranch', ['as' => 'admin'])->name('admin.bank-accounts.bank_branch');
     // Users
     Route::resource('/users', 'Admin\UsersController', ['as' => 'admin'])->except(['show']);
     Route::get('/user/{user}/status', 'Admin\UsersController@status')->name('admin.users.status');
     Route::get('/user/{user}/type', 'Admin\UsersController@type')->name('admin.users.type');
     // Packet sizes
     Route::resource('/packet-sizes', 'Admin\PacketSizesController', ['as' => 'admin'])->except(['create', 'show']);
+    // Bank transaction
+    Route::resource('/bank-transactions', 'Admin\Bank\BankTransactionsController', ['as' => 'admin'])->only(['index','store']);
 });

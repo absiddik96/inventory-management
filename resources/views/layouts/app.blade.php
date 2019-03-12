@@ -12,8 +12,6 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    <link href="{{ url('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ asset('sweetalert2/dist/sweetalert2.min.css') }}">
 
@@ -156,10 +154,10 @@
                 showConfirmButton: false,
                 timer: 3000
             });
-                Toast.fire({
-                    type: 'success',
-                    title: "{{ Session::get('success') }}"
-                })
+            Toast.fire({
+                type: 'success',
+                title: "{{ Session::get('success') }}"
+            })
         </script>
     @endif
 </body>

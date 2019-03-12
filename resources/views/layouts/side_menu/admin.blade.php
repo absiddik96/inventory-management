@@ -36,3 +36,11 @@
         <p>Packet Sizes</p>
     </a>
 </li>
+
+{{-- Bank Transactions --}}
+<li class="nav-item">
+    <a href="{{ route('admin.bank-transactions.index') }}" class="nav-link {{ Request::is('admin/bank-transactions*') ? 'active' : '' }}">
+        <i class="fas fa-circle-notch"></i>
+        <p>Bank Transactions</p>
+    </a>
+</li>

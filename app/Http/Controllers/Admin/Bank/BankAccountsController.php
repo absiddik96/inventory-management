@@ -140,4 +140,15 @@ class BankAccountsController extends Controller
 
         return back();
     }
+
+    public function bankAccountsByBankBranch($bank_id,$branch_id)
+    {
+        return response()->json([
+            'bank_accounts' => BankAccount::where([
+                'bank_id'=> $bank_id,
+                'branch_id' => $branch_id,
+                'status'=> true
+            ])->get()
+        ]);
+    }
 }

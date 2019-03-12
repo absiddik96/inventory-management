@@ -16,6 +16,11 @@ class BanksController extends Controller
      */
     public function index()
     {
+        if (request()->expectsJson()) {
+            return response()->json([
+                'data' => Bank::orderBy('name')->get()
+            ]);
+        }
         return view('admin.bank.banks.index')
             ->with('banks', Bank::all());
     }
