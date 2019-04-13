@@ -6,9 +6,9 @@
             <h5 class="m-0">Create Product Category</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('categories.store') }}" method="post">
+            <form action="{{ route('admin.categories.store') }}" method="post">
                 @csrf
-                @include('product.category._form',['buttonValue'=>'Submit'])
+                @include('admin.product.category._form',['buttonValue'=>'Submit'])
             </form>
         </div>
     </div>
@@ -40,9 +40,9 @@
                                         <td class="sorting_1">{{ ++$key }}</td>
                                         <td>{{ $cat->name }}</td>
                                         <td>
-                                            <a href="{{ route('categories.edit', $cat->id) }}" class="btn btn-sm btn-outline-info"><i class="fa fa-edit"></i></a>
+                                            <a href="{{ route('admin.categories.edit', $cat->id) }}" class="btn btn-sm btn-outline-info"><i class="fa fa-edit"></i></a>
                                             @include('includes._confirm_delete',[
-                                                'action' => route('categories.destroy', $cat->id),
+                                                'action' => route('admin.categories.destroy', $cat->id),
                                                 'id' => $cat->id
                                             ])
                                             

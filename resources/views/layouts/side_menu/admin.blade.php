@@ -44,3 +44,17 @@
         <p>Bank Transactions</p>
     </a>
 </li>
+{{-- Product Category --}}
+<li class="nav-item">
+    <a href="{{ route('admin.categories.index') }}" class="nav-link {{ Request::is('admin/product/categories*') ? 'active' : '' }}">
+        <i class="fas fa-tachometer-alt"></i>
+        <p>Category</p>
+    </a>
+</li>
+{{-- Product --}}
+<li class="nav-item">
+    <a href="{{ route('admin.products.index') }}" class="nav-link {{ Request::is('admin/products*') ? 'active' : '' }}">
+        <i class="fas fa-circle-notch"></i>
+        <p>Product</p>
+    </a>
+</li>
