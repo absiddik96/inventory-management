@@ -46,6 +46,8 @@
     <a href="{{ route('admin.suppliers.index') }}" class="nav-link {{ Request::is('admin/suppliers*') ? 'active' : '' }}">
         <i class="fas fa-database"></i>
         <p>Suppliers</p>
+    </a>
+</li>
 {{-- Product Category --}}
 <li class="nav-item">
     <a href="{{ route('admin.categories.index') }}" class="nav-link {{ Request::is('admin/product/categories*') ? 'active' : '' }}">
