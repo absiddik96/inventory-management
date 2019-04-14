@@ -1,13 +1,13 @@
-<button type="button" class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#supplier-{{ $supplier->id }}">
+<button type="button" class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#dealer-{{ $dealer->id }}">
     <i class="fa fa-eye"></i>
 </button>
-<div class="modal fade" id="supplier-{{ $supplier->id }}">
+<div class="modal fade" id="dealer-{{ $dealer->id }}">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">View Supplier Info</h4>
+                <h4 class="modal-title">View Dealer Info - {{ $dealer->name }}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
@@ -17,37 +17,37 @@
                     <tr>
                         <td width="160px">Name</td>
                         <td width="1px">:</td>
-                        <td>{{ $supplier->name }}</td>
+                        <td>{{ $dealer->name }}</td>
                     </tr>
                     <tr>
                         <td>Phone</td>
                         <td>:</td>
-                        <td>{{ $supplier->email }}</td>
+                        <td>{{ $dealer->email }}</td>
                     </tr>
                     <tr>
                         <td>Email</td>
                         <td>:</td>
-                        <td>{{ $supplier->phone }}</td>
+                        <td>{{ $dealer->phone }}</td>
                     </tr>
                     <tr>
-                        <td>Company Name</td>
+                        <td>Shop Name</td>
                         <td>:</td>
-                        <td>{{ $supplier->company_name }}</td>
+                        <td>{{ $dealer->shop_name }}</td>
                     </tr>
                     <tr>
-                        <td>Company Address</td>
+                        <td>NID</td>
                         <td>:</td>
-                        <td>{{ $supplier->company_address }}</td>
+                        <td>{{ $dealer->nid }}</td>
                     </tr>
                     <tr>
-                        <td>Registration Number</td>
+                        <td>Trade License</td>
                         <td>:</td>
-                        <td>{{ $supplier->registration_no }}</td>
+                        <td>{{ $dealer->trad_license }}</td>
                     </tr>
                     <tr>
-                        <td>Details</td>
+                        <td>Address</td>
                         <td>:</td>
-                        <td class="text-justify">{{ $supplier->details }}</td>
+                        <td class="text-justify">{{ $dealer->address }}</td>
                     </tr>
                 </table>
             </div>

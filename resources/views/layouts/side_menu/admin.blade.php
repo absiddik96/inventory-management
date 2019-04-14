@@ -62,3 +62,10 @@
         <p>Product</p>
     </a>
 </li>
+{{-- Suppliers --}}
+<li class="nav-item">
+    <a href="{{ route('admin.dealers.index') }}" class="nav-link {{ Request::is('admin/dealers*') ? 'active' : '' }}">
+        <i class="fas fa-database"></i>
+        <p>Dealers</p>
+    </a>
+</li>

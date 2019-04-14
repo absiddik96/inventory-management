@@ -44,4 +44,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     // Product Category
     Route::resource('product/categories', 'Admin\Product\ProductCategoriesController',['as' => 'admin'])->except(['create', 'show']);
     Route::resource('products', 'Admin\Product\ProductsController',['as' => 'admin']);
+    //Dealer
+    Route::resource('/dealers', 'Admin\Dealer\DealersController', ['as' => 'admin']);
+    Route::get('/dealer/{dealer}/status', 'Admin\Dealer\DealersController@changeStatus')->name('admin.dealers.change_status');
 });
