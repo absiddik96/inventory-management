@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Product;
 
 use Session;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use App\Http\Controllers\Controller;
 
 class ProductCategoriesController extends Controller
 {
@@ -15,7 +16,7 @@ class ProductCategoriesController extends Controller
      */
     public function index()
     {
-        return view('product.category.index')
+        return view('admin.product.category.index')
             ->with('category', new ProductCategory())
             ->with('categories', ProductCategory::all());
     }
@@ -46,7 +47,7 @@ class ProductCategoriesController extends Controller
      */
     public function edit(ProductCategory $category)
     {
-        return view('product.category.edit')
+        return view('admin.product.category.edit')
             ->with('category', $category);
     }
 
@@ -65,7 +66,7 @@ class ProductCategoriesController extends Controller
         if ($category->update($attribute)) {
             Session::flash('success', 'Product Category has been updated successfully');
         }
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.categories.index');
     }
 
     /**

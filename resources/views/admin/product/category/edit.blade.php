@@ -6,9 +6,9 @@
             <h5 class="m-0">Update Product Category</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('categories.update', $category->id) }}" method="post">
+            <form action="{{ route('admin.categories.update', $category->id) }}" method="post">
                 @csrf @method('put')
-                @include('product.category._form',['buttonValue'=>'Update'])
+                @include('admin.product.category._form',['buttonValue'=>'Update'])
             </form>
         </div>
     </div>

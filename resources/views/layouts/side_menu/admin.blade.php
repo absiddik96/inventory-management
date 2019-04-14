@@ -12,7 +12,6 @@
         <p>Banks</p>
     </a>
 </li>
-
 {{-- Bank Branchs --}}
 <li class="nav-item">
     <a href="{{ route('admin.bankbranchs.index') }}" class="nav-link {{ Request::is('admin/bankbranchs*') ? 'active' : '' }}">
@@ -20,7 +19,6 @@
         <p>Bank Branchs</p>
     </a>
 </li>
-
 {{-- Bank Accounts --}}
 <li class="nav-item">
     <a href="{{ route('admin.bank-accounts.index') }}" class="nav-link {{ Request::is('admin/bank-accounts*') ? 'active' : '' }}">
@@ -28,7 +26,6 @@
         <p>Bank Accounts</p>
     </a>
 </li>
-
 {{-- Packet Sizes --}}
 <li class="nav-item">
     <a href="{{ route('admin.packet-sizes.index') }}" class="nav-link {{ Request::is('admin/packet-sizes*') ? 'active' : '' }}">
@@ -44,11 +41,22 @@
         <p>Bank Transactions</p>
     </a>
 </li>
-
-{{-- Bank Transactions --}}
+{{-- Suppliers --}}
 <li class="nav-item">
     <a href="{{ route('admin.suppliers.index') }}" class="nav-link {{ Request::is('admin/suppliers*') ? 'active' : '' }}">
         <i class="fas fa-database"></i>
         <p>Suppliers</p>
+{{-- Product Category --}}
+<li class="nav-item">
+    <a href="{{ route('admin.categories.index') }}" class="nav-link {{ Request::is('admin/product/categories*') ? 'active' : '' }}">
+        <i class="fas fa-tachometer-alt"></i>
+        <p>Category</p>
+    </a>
+</li>
+{{-- Product --}}
+<li class="nav-item">
+    <a href="{{ route('admin.products.index') }}" class="nav-link {{ Request::is('admin/products*') ? 'active' : '' }}">
+        <i class="fas fa-circle-notch"></i>
+        <p>Product</p>
     </a>
 </li>

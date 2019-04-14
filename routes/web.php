@@ -19,8 +19,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::group(['middleware' => ['auth']], function () {
-    // Product Category
-    Route::resource('product/categories', 'ProductCategoriesController')->except(['create', 'show']);
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
@@ -43,4 +41,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     // Suppliers
     Route::resource('/suppliers', 'Admin\Supplier\SuppliersController', ['as' => 'admin']);
     Route::get('/supplier/{supplier}/status', 'Admin\Supplier\SuppliersController@changeStatus')->name('admin.suppliers.change_status');
+    // Product Category
+    Route::resource('product/categories', 'Admin\Product\ProductCategoriesController',['as' => 'admin'])->except(['create', 'show']);
+    Route::resource('products', 'Admin\Product\ProductsController',['as' => 'admin']);
 });
