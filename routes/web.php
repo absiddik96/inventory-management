@@ -40,4 +40,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     Route::resource('/packet-sizes', 'Admin\PacketSizesController', ['as' => 'admin'])->except(['create', 'show']);
     // Bank transaction
     Route::resource('/bank-transactions', 'Admin\Bank\BankTransactionsController', ['as' => 'admin'])->only(['index','store']);
+    // Suppliers
+    Route::resource('/suppliers', 'Admin\Supplier\SuppliersController', ['as' => 'admin']);
+    Route::get('/supplier/{supplier}/status', 'Admin\Supplier\SuppliersController@changeStatus')->name('admin.suppliers.change_status');
 });

@@ -1,7 +1,7 @@
 {{-- Banks --}}
 <li class="nav-item">
     <a href="{{ route('admin.users.index') }}" class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
-        <i class="fa fa-university"></i>
+        <i class="fa fa-user"></i>
         <p>Users</p>
     </a>
 </li>
@@ -42,5 +42,13 @@
     <a href="{{ route('admin.bank-transactions.index') }}" class="nav-link {{ Request::is('admin/bank-transactions*') ? 'active' : '' }}">
         <i class="fas fa-circle-notch"></i>
         <p>Bank Transactions</p>
+    </a>
+</li>
+
+{{-- Bank Transactions --}}
+<li class="nav-item">
+    <a href="{{ route('admin.suppliers.index') }}" class="nav-link {{ Request::is('admin/suppliers*') ? 'active' : '' }}">
+        <i class="fas fa-database"></i>
+        <p>Suppliers</p>
     </a>
 </li>

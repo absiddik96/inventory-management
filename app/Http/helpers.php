@@ -11,5 +11,5 @@ function status($value)
 
 function phone($value)
 {
-    return $value??'not set';
+    return $value??'Not Set';
 }
