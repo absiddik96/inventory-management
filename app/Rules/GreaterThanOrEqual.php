@@ -4,9 +4,10 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class LessThanOrEqual implements Rule
+class GreaterThanOrEqual implements Rule
 {
-    public $max = null;
+    public $min = null;
+
     /**
      * Create a new rule instance.
      *
@@ -14,7 +15,7 @@ class LessThanOrEqual implements Rule
      */
     public function __construct($par)
     {
-        $this->max = $par;
+        $this->min = $par;
     }
 
     /**
@@ -26,7 +27,7 @@ class LessThanOrEqual implements Rule
      */
     public function passes($attribute, $value)
     {
-        if($value<=$this->max){
+        if($value>=$this->min){
             return true;
         }
         return false;
@@ -39,6 +40,6 @@ class LessThanOrEqual implements Rule
      */
     public function message()
     {
-        return 'The :attribute must be less than or equal to '.$this->max.'.';
+        return 'The :attribute must be greater than or equal to '.$this->min.'.';
     }
 }

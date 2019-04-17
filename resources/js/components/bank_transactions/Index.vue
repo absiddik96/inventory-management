@@ -26,6 +26,7 @@
                                     <th width="10%">Amount</th>
                                     <th width="10%">Transaction Type</th>
                                     <th width="10%">Transaction Date</th>
+                                    <th width="10%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,6 +39,9 @@
                                     <td>{{ transaction.amount }}</td>
                                     <td>{{ transaction.transaction_type?'Credit':'Debit' }}</td>
                                     <td>{{ transaction.transaction_date }}</td>
+                                    <td>
+                                        <transaction-view :data="transaction"></transaction-view>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -50,7 +54,11 @@
 </div>
 </template>
 <script>
+import transactionView from './TransactionView.vue'
 export default {
+    components:{
+        transactionView
+    },
     props: ['transactionsData'],
     data(){
         return{

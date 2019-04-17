@@ -32,19 +32,10 @@ window.toast = toast;
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component(
-    "example-component",
-    require("./components/ExampleComponent.vue")
-);
-
-Vue.component(
-    "bank-transaction",
-    require("./components/bank_transactions/Index.vue")
-);
-Vue.component(
-    "bank-transaction-add",
-    require("./components/bank_transactions/Transaction.vue")
-);
+Vue.component("example-component", require("./components/ExampleComponent.vue"));
+Vue.component("bank-transaction",require("./components/bank_transactions/Index.vue"));
+Vue.component("bank-transaction-add",require("./components/bank_transactions/Transaction.vue"));
+Vue.component("bulk-stock-add",require("./components/bulk_stock/Create.vue"));
 
 const app = new Vue({
     el: "#app"

@@ -47,4 +47,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     //Dealer
     Route::resource('/dealers', 'Admin\Dealer\DealersController', ['as' => 'admin']);
     Route::get('/dealer/{dealer}/status', 'Admin\Dealer\DealersController@changeStatus')->name('admin.dealers.change_status');
+    //Bulk Stock
+    Route::resource('/bulk-stock', 'Admin\BulkStock\BulkStocksController', ['as' => 'admin']);
+    // Category Product
+    Route::get('/category/{category}/products', 'Admin\Category\CategoryProductController@products',['as' => 'admin'])->name('admin.category.product');
+    // Account Bank
+    Route::get('/bank/{bank_id}/accounts', 'Admin\Bank\AccountBankController@accounts',['as' => 'admin'])->name('admin.account.bank');
 });

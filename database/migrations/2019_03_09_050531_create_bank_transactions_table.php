@@ -27,6 +27,8 @@ class CreateBankTransactionsTable extends Migration
             $table->date('transaction_date');
             $table->string('amount');
             $table->text('note')->nullable();
+            $table->integer('transactionable_id')->unsigned();
+            $table->string('transactionable_type');
             $table->timestamps();
         });
     }

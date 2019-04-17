@@ -13,4 +13,14 @@ class ProductCategory extends Model
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = str_slug($value . ' ' . time());
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function activeProducts()
+    {
+        return $this->hasMany(Product::class)->where('status',Product::ACTIVE);
+    }
 }
