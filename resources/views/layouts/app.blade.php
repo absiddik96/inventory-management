@@ -25,7 +25,7 @@
     </style>
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse">
     <div class="wrapper" id="app">
 
         <!-- Navbar -->

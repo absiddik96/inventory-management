@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\BankTransaction;
 use Illuminate\Database\Eloquent\Model;
 
 class Dealer extends Model
@@ -12,4 +13,9 @@ class Dealer extends Model
     protected $fillable = [
         'name', 'email', 'phone', 'nid', 'shop_name', 'trad_license', 'address', 'status'
     ];
+
+    public function transactions()
+    {
+        return $this->morphMany(BankTransaction::class, 'transactionable');
+    }
 }

@@ -72,6 +72,12 @@
                                     <has-error :form="form" field="transaction_date"></has-error>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Note</label>
+                                    <textarea name="note" id="" cols="30" rows="5" class="form-control" v-model="form.note"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -116,6 +122,7 @@ export default {
                 transaction_type: '',
                 amount: '',
                 transaction_date: '',
+                note: '',
                 confirm: false,
             }),
             formData: {
@@ -125,6 +132,7 @@ export default {
                 transaction_type: '',
                 amount: '',
                 transaction_date: '',
+                note: '',
             }
         }
     },
@@ -199,7 +207,8 @@ export default {
                     bank_account: data.bank_account_id,
                     transaction_type: data.transaction_type,
                     amount: data.amount,
-                    transaction_date: data.transaction_date
+                    transaction_date: data.transaction_date,
+                    note: data.note
                 });
             }
         },
@@ -214,6 +223,7 @@ export default {
             this.formData.bank_account = this.bank_accounts.find(({id}) => id === this.form.bank_account);
             this.formData.transaction_date = this.form.transaction_date;
             this.formData.amount = this.form.amount;
+            this.formData.note = this.form.note;
 
             return this.formData
         }

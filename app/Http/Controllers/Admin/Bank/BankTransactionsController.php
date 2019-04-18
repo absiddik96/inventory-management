@@ -6,10 +6,11 @@ use Session;
 use App\User;
 use App\Models\BankAccount;
 use Illuminate\Http\Request;
+use App\Rules\LessThanOrEqual;
 use App\Models\BankTransaction;
+use App\Rules\GreaterThanOrEqual;
 use App\Http\Controllers\Controller;
 use Lcobucci\JWT\Claim\LesserOrEqualsTo;
-use App\Rules\LessThanOrEqual;
 
 class BankTransactionsController extends Controller
 {
@@ -26,7 +27,7 @@ class BankTransactionsController extends Controller
             ]);
         }
         return view('admin.bank.bank_transactions.index')
-            ->with('transactions', BankTransaction::latest()->with(['bankAccount','bankAccount.bank','bankAccount.branch'])->get());
+            ->with('transactions', BankTransaction::latest()->with(['bankAccount','bankAccount.bank','bankAccount.branch','transactionable'])->get());
     }
 
     /**
@@ -49,12 +50,14 @@ class BankTransactionsController extends Controller
             'transaction_type' => 'required',
             'amount'           => [
                 'required', 
-                (($request->transaction_type == 0 && $bank_account)?new LessThanOrEqual($bank_account->totalAmount()):'')
+                (($request->transaction_type == 0 && $bank_account)?new LessThanOrEqual($bank_account->totalAmount()) : 
+                                                                    new GreaterThanOrEqual(1))
             ],
             'transaction_date' => 'required',
         ]);
 
         $bank_transaction = new BankTransaction();
+        $user = auth()->user();
 
         $bank_transaction->bank_id          = $request->bank;
         $bank_transaction->branch_id        = $request->branch;
@@ -62,13 +65,14 @@ class BankTransactionsController extends Controller
         $bank_transaction->transaction_type = $request->transaction_type;
         $bank_transaction->amount           = $request->amount;
         $bank_transaction->transaction_date = $request->transaction_date;
-        $bank_transaction->supervisor_id    = auth()->user()->id;
+        $bank_transaction->note             = $request->note;
+        $bank_transaction->supervisor_id    = $user->id;
 
         if(!$request->confirm){
             return '';
         }
 
-        if($bank_transaction->save()){
+        if($user->transactions()->save($bank_transaction)){
             return response()->json([
                 'message' => "Transaction has been completed successfully",
             ]);

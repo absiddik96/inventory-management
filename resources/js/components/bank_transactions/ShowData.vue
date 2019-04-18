@@ -32,6 +32,12 @@
                 {{ data.transaction_date }}
             </div>
         </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for>Note :</label>
+                {{ data.note }}
+            </div>
+        </div>
     </div>
 </template>
 <script>
