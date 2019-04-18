@@ -4,7 +4,7 @@
         <div class="card-header">
             <div class="d-flex">
                 <div class="p-2">
-                    <h5>Create Bulk Stock</h5>
+                    <h5>Edit Bulk Stock</h5>
                 </div>
                 <div class="ml-auto p-2">
                     <a href="" class="btn btn-sm btn-outline-primary" @click.prevent="backIndex"> <i class="fa fa-arrow-left"></i> Back</a>
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form>
+            <form @submit.prevent="updateData">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -67,12 +67,12 @@
                             <tbody>
                                 <tr v-for="(p_item,index) in form.purchase_items" :key="index">
                                     <td>{{ ++index }}</td>
-                                    <td>{{ p_item.name }}</td>
+                                    <td>{{ p_item.product.name }}</td>
                                     <td>
-                                        <input @keyup="grandTotal" type="number" class="form-control" v-model="p_item.quantity" required>
+                                        <input @keyup="grandTotal" type="number" class="form-control" min="0" v-model="p_item.quantity" required>
                                     </td>
                                     <td>
-                                        <input @keyup="grandTotal" type="number" class="form-control" v-model="p_item.unit_price" required>
+                                        <input @keyup="grandTotal" type="number" class="form-control" min="0" v-model="p_item.unit_price" required>
                                     </td>
                                     <td>{{ p_item.total = parseFloat((p_item.quantity*p_item.unit_price).toFixed(2)) }}</td>
                                     <td>
@@ -110,13 +110,13 @@
                         <div class="form-group row">
                             <label for="grand_total" class="col-md-3">Is Verified : </label>
                             <div class="col-md-9 pt-1">
-                                <input @change="getBankBranch" type="checkbox" name="is_verified" value="1" v-model="form.is_verified"> Verified
+                                <input type="checkbox" name="is_verified" value="1" v-model="form.is_verified"> Verified
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="grand_total" class="col-md-3">Payment Type : </label>
                             <div class="col-md-9">
-                                <select @change="getBankBranch" name="payment_type" id="" v-model="form.payment_type" class="form-control" :class="{ 'is-invalid': form.errors.has('payment_type')}">
+                                <select name="payment_type" id="" v-model="form.payment_type" class="form-control" :class="{ 'is-invalid': form.errors.has('payment_type')}">
                                     <option value="">Choose Payment Type</option>
                                     <option value="0">Cash</option>
                                     <option value="1">Bank</option>
@@ -149,7 +149,7 @@
                                 <label for="grand_total" class="col-md-3">A/C Number : </label>
                                 <div class="col-md-9">
                                     <select name="account_number" id="" class="form-control" v-model="form.account_number" :class="{ 'is-invalid': form.errors.has('account_number')}">
-                                        <option value="">Choose A/c Number</option>
+                                        <option value="">Choose A/C Number</option>
                                         <option v-for="(bank_account,index) in bank_accounts" :key="index" :value="bank_account.id">{{ bank_account.account_number }} - ({{ bank_account.account_holder }})</option>
                                     </select>
                                     <has-error :form="form" field="account_number"></has-error>
@@ -159,7 +159,7 @@
                     </div>
                 </div>
                 <hr>
-                <button :disabled="submitDisable" type="submit" @click.prevent="storeData" class="btn btn-sm btn-outline-primary float-right"> Submit</button>
+                <button :disabled="submitDisable" type="submit" class="btn btn-sm btn-outline-primary float-right"> Submit</button>
             </form>
         </div>
     </div>
@@ -168,29 +168,27 @@
 
 <script>
 export default {
-    props: ['suppliers','categories'],
+    props: ['suppliers','categories','bulk_stock','banks','branchs'],
     data(){
         return {
             products: {},
             product_id: '',
             category_id: '',
-            banks: [],
-            branchs: [],
-            bank_accounts: [],
+            bank_accounts: this.bulk_stock.transaction != null?[this.bulk_stock.transaction.bank_account]:[],
             form: new Form({
-                id: '',
-                lc_number: '',
-                supplier: '',
-                date: '',
-                purchase_items: [],
-                grand_total: 0,
-                amount_pay: 0,
-                amount_due: 0,
-                payment_type: '',
-                bank: '',
-                branch: '',
-                account_number: '',
-                is_verified: false,
+                id: this.bulk_stock.id,
+                lc_number: this.bulk_stock.lc_number,
+                supplier: this.bulk_stock.supplier_id,
+                date: this.bulk_stock.date,
+                purchase_items: this.bulk_stock.purchase_items,
+                grand_total: this.bulk_stock.grand_total,
+                amount_pay: this.bulk_stock.amount_pay,
+                amount_due: this.bulk_stock.amount_due,
+                payment_type: this.bulk_stock.payment_type,
+                bank: this.bulk_stock.transaction != null?this.bulk_stock.transaction.bank_id:'',
+                branch: this.bulk_stock.transaction != null?this.bulk_stock.transaction.branch_id:'',
+                account_number: this.bulk_stock.transaction != null?this.bulk_stock.transaction.bank_account_id:'',
+                is_verified: this.bulk_stock.is_verified,
             }),
         }
     },
@@ -200,28 +198,6 @@ export default {
                 .then(res => {
                     this.products = res.data.data;
                 })
-        },
-        getBankBranch(){
-            if(!this.form.is_verified){
-                this.getBanks();
-                this.getBranchs();
-            }
-        },
-        getBanks(){
-            if(this.form.payment_type == 1 && this.banks == ''){
-                axios.get(`/admin/banks`)
-                    .then(res => {
-                        this.banks = res.data.data;
-                    })
-            }
-        },
-        getBranchs(){
-            if(this.form.payment_type == 1 && this.branchs == ''){
-                axios.get(`/admin/bankbranchs`)
-                    .then(res => {
-                        this.branchs = res.data.data;
-                    })
-            }
         },
         getBankAccounts(){
             if(this.form.bank != '' && this.form.branch != ''){
@@ -236,14 +212,16 @@ export default {
             
             var temp_item = {
                 product_id: '',
-                name: '',
+                product: {
+                    name: '',
+                },
                 quantity: 0,
                 unit_price: 0,
                 total: 0,
             };
 
             temp_item.product_id = item.id;
-            temp_item.name = item.name;
+            temp_item.product.name = item.name;
 
             this.form.purchase_items.push(temp_item)
 
@@ -280,16 +258,13 @@ export default {
                 }
             })
         },
-        storeData(){
+        updateData(){
             if(this.form.purchase_items.length){
-                this.form.post(`/admin/bulk-stock`)
+                this.form.put(`/admin/bulk-stock/${this.bulk_stock.id}`)
                 .then(res => {
-                    toast.fire({
-                        type: 'success',
-                        title: 'Bulk Stock has been added successfully'
-                    })
                     this.form.reset();
                     this.category_id = '';
+                    window.location.href = res.data.data;
                 })
             }else{
                 toast.fire({
@@ -305,7 +280,7 @@ export default {
     computed: {
         submitDisable(){
             return this.form.busy
-        }
+        },
     }
 }
 </script>

@@ -36,6 +36,7 @@ Vue.component("example-component", require("./components/ExampleComponent.vue"))
 Vue.component("bank-transaction",require("./components/bank_transactions/Index.vue"));
 Vue.component("bank-transaction-add",require("./components/bank_transactions/Transaction.vue"));
 Vue.component("bulk-stock-add",require("./components/bulk_stock/Create.vue"));
+Vue.component("bulk-stock-edit",require("./components/bulk_stock/Edit.vue"));
 
 const app = new Vue({
     el: "#app"

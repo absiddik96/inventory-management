@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\BankTransaction;
 use App\Models\ProductCategory;
 use App\Http\Controllers\Controller;
+use App\Models\Bank;
+use App\Models\BankBranch;
+use Illuminate\Support\Facades\Session;
 
 class BulkStocksController extends Controller
 {
@@ -18,7 +21,9 @@ class BulkStocksController extends Controller
      */
     public function index()
     {
-        //
+        // return BulkStock::latest()->with('supplier')->get();
+        return view('admin.bulk_stock.index')
+                ->with('bulk_stocks', BulkStock::latest()->with('supplier')->get());
     }
 
     /**
@@ -87,7 +92,8 @@ class BulkStocksController extends Controller
      */
     public function show(BulkStock $bulkStock)
     {
-        //
+        return view('admin.bulk_stock.show')
+                ->with('bulk_stock',$bulkStock->load(['purchaseItems','supplier','transaction','transaction.bankAccount']));
     }
 
     /**
@@ -98,7 +104,12 @@ class BulkStocksController extends Controller
      */
     public function edit(BulkStock $bulkStock)
     {
-        //
+        return view('admin.bulk_stock.edit')
+                ->with('suppliers', Supplier::orderBy('name')->where('status',Supplier::ACTIVE)->get())
+                ->with('categories', ProductCategory::orderBy('name')->get())
+                ->with('banks', Bank::orderBy('name')->get())
+                ->with('branchs', BankBranch::orderBy('name')->get())
+                ->with('bulk_stock',$bulkStock->load(['purchaseItems','supplier','transaction','transaction.bankAccount']));
     }
 
     /**
@@ -110,7 +121,50 @@ class BulkStocksController extends Controller
      */
     public function update(Request $request, BulkStock $bulkStock)
     {
-        //
+        $request->validate([
+            'lc_number' => 'required|unique:bulk_stocks,lc_number,'.$bulkStock->id,
+            'supplier' => 'required',
+            'date' => 'required',
+            'purchase_items' => 'required',
+            'grand_total' => 'required',
+            'amount_pay' => 'required',
+            'amount_due' => 'required',
+            'payment_type' => 'required',
+        ]);
+
+        if($bulkStock->transaction_id){
+            BankTransaction::findOrfail($bulkStock->transaction_id)->delete();
+            $request['transaction_id'] = null;
+        }
+
+        if(!$request->is_verified){
+            $supplier = Supplier::findOrfail($request->supplier);
+            $transaction = $supplier->transactions()->create([
+                'bank_id'          => $request->bank,
+                'branch_id'        => $request->branch,
+                'bank_account_id'  => $request->account_number,
+                'transaction_type' => BankTransaction::TRANSACTION_TYPE_DEBIT,
+                'amount'           => $request->amount_pay,
+                'transaction_date' => $request->date,
+                'note'             => $request->note,
+                'supervisor_id'    => auth()->user()->id,
+            ]);
+
+            $request['transaction_id'] = $transaction->id;
+        }
+
+        $request['supplier_id'] = $request->supplier;
+        $request['is_verified'] = $request->is_verified ? BulkStock::VERIFIED : BulkStock::UNVERIFIED;
+        
+        $bulkStock->update($request->all());
+        $bulkStock->purchaseItems()->delete();
+        $bulkStock->purchaseItems()->createMany($request->purchase_items);
+
+        Session::flash('success', 'Bulk stock has been updated successfully');
+        
+        return response()->json([
+            'data' => route('admin.bulk-stock.index')
+        ]);
     }
 
     /**
@@ -121,6 +175,14 @@ class BulkStocksController extends Controller
      */
     public function destroy(BulkStock $bulkStock)
     {
-        //
+        if($bulkStock->transaction_id){
+            BankTransaction::findOrfail($bulkStock->transaction_id)->delete();
+        }
+
+        if($bulkStock->delete()){
+            Session::flash('success', 'Bulk stock has been updated successfully');
+        }
+
+        return redirect()->back();
     }
 }
