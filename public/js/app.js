@@ -70216,6 +70216,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var temp_item = {
                 product_id: '',
+                category_id: '',
                 name: '',
                 quantity: 0,
                 unit_price: 0,
@@ -70223,6 +70224,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
 
             temp_item.product_id = item.id;
+            temp_item.category_id = item.product_category_id;
             temp_item.name = item.name;
 
             this.form.purchase_items.push(temp_item);
@@ -71536,6 +71538,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var temp_item = {
                 product_id: '',
+                category_id: '',
                 product: {
                     name: ''
                 },
@@ -71545,6 +71548,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
 
             temp_item.product_id = item.id;
+            temp_item.category_id = item.product_category_id;
             temp_item.product.name = item.name;
 
             this.form.purchase_items.push(temp_item);

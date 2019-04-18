@@ -17,15 +17,15 @@
                 <div class="row">
                     <div class="col-md-12 ml-md-2">
                         <div class="form-group">
-                                <label for="supplier">L/C Number </label> {{ $bulk_stock->lc_number }}
+                                <label for="supplier">L/C Number : </label> {{ $bulk_stock->lc_number }}
                                 
                         </div>
                         <div class="form-group">
-                            <label for="supplier">Supplier </label> {{ $bulk_stock->supplier->name }}
+                            <label for="supplier">Supplier : </label> {{ $bulk_stock->supplier->name }}
                             
                         </div>
                         <div class="form-group">
-                            <label for="date">Date </label> {{ $bulk_stock->date }}
+                            <label for="date">Date :  </label> {{ $bulk_stock->date }}
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                         <div class="form-group row">
                             <label for="grand_total" class="col-md-6 text-md-right pt-2">Is Verified : </label>
                             <div class="col-md-6 pt-1">
-                                <input type="text" readonly class="bg-white form-control" value="{{ $bulk_stock->grand_total?'Verified':'Unverified' }}">
+                                <input type="text" readonly class="bg-white form-control" value="{{ $bulk_stock->is_verified?'Verified':'Unverified' }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -91,7 +91,7 @@
                                 <input type="text" readonly class="bg-white form-control" value="{{ $bulk_stock->payment_type?'Bank':'Cash' }}">
                             </div>
                         </div>
-                        <div>
+                        @if($bulk_stock->transaction)
                             <div class="form-group row">
                                 <label for="grand_total" class="col-md-6 text-md-right pt-2">Bank : </label>
                                 <div class="col-md-6">
@@ -110,7 +110,7 @@
                                     <input type="text" readonly class="bg-white form-control" value="{{ $bulk_stock->transaction->bankAccount->account_number }}">
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </form>

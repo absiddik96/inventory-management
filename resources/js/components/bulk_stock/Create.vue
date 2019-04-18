@@ -236,6 +236,7 @@ export default {
             
             var temp_item = {
                 product_id: '',
+                category_id: '',
                 name: '',
                 quantity: 0,
                 unit_price: 0,
@@ -243,6 +244,7 @@ export default {
             };
 
             temp_item.product_id = item.id;
+            temp_item.category_id = item.product_category_id;
             temp_item.name = item.name;
 
             this.form.purchase_items.push(temp_item)

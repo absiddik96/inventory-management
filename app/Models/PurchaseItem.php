@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PurchaseItem extends Model
 {
-    protected $fillable = ['bulk_stock_id','product_id','unit_price','quantity','total'];
+    protected $fillable = ['bulk_stock_id','category_id','product_id','unit_price','quantity','total'];
 
     public function bulk_stock()
     {

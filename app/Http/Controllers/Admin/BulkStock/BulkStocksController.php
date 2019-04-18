@@ -56,7 +56,7 @@ class BulkStocksController extends Controller
             'amount_due' => 'required',
             'payment_type' => 'required',
         ]);
-        if(!$request->is_verified){
+        if($request->payment_type==1 && !$request->is_verified){
             // Transaction 
             $supplier = Supplier::findOrfail($request->supplier);
             $transaction = $supplier->transactions()->create([
@@ -137,7 +137,7 @@ class BulkStocksController extends Controller
             $request['transaction_id'] = null;
         }
 
-        if(!$request->is_verified){
+        if($request->payment_type==1 && !$request->is_verified){
             $supplier = Supplier::findOrfail($request->supplier);
             $transaction = $supplier->transactions()->create([
                 'bank_id'          => $request->bank,
