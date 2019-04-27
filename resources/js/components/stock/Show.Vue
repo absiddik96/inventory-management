@@ -53,6 +53,16 @@
             <div class="row justify-content-end">
                 <div class="col-md-12">
                     <table class="table table-bordered">
+                        <thead class="no-border">
+                            <tr>
+                                <td colspan="3">
+                                    <b>Stock Packet Details</b>
+                                </td>
+                                <td colspan="3">
+                                    <stock-item-create :packet_sizes="packet_sizes" @getStockItems="getStockItems"></stock-item-create>
+                                </td>
+                            </tr>
+                        </thead>
                         <thead class="bg-secondary">
                             <tr>
                                 <td width="10%">Serial No</td>
@@ -63,13 +73,27 @@
                                 <td width="10%">Action</td>
                             </tr>
                         </thead>
-                        <tbody v-for="(item,index) in stock_items" :key="index">
-                            <stock-item :item="item" :sr="++index" :packet_sizes="packet_sizes" @getStockItems="getStockItems"></stock-item>
+                        <tbody v-for="(item,index) in items" :key="index">
+                            <stock-item :item="item" :sr="++index+(10*(itemPagination.page-1))" :packet_sizes="packet_sizes" @getStockItems="getStockItems"></stock-item>
                         </tbody>
                         <tbody>
                             <tr>
                                 <td colspan="6">
-                                    <stock-item-create :packet_sizes="packet_sizes" @getStockItems="getStockItems"></stock-item-create>
+                                    <paginate
+                                    class="float-right"
+                                        v-model="itemPagination.page"
+                                        :page-count="itemPagination.page_count"
+                                        :page-range="itemPagination.page_range"
+                                        :margin-pages="itemPagination.margin_page"
+                                        :click-handler="setItemPagination"
+                                        :prev-text="'Prev'"
+                                        :next-text="'Next'"
+                                        :container-class="'pagination'"
+                                        :page-class="'page-item'"
+                                        :page-link-class="'page-link'"
+                                        :prev-class="'page-link'"
+                                        :next-class="'page-link'">
+                                    </paginate>
                                 </td>
                             </tr>
                         </tbody>
@@ -93,11 +117,21 @@ export default {
         return {
             stock_id: this.stock.id,
             stock_items: [],
+            items: [],
+            stock_items_length: 0,
             product_id: this.stock.product_id,
             priceForm: new Form({
                 price: this.stock.unit_sell_price,
                 editable: false,
-            })
+            }),
+            itemPagination: {
+                page: 1,
+                page_range: 3,
+                page_count: 0,
+                margin_page: 1,
+                start: 0,
+                end:10,
+            }
         }
     },
     methods: {
@@ -115,10 +149,26 @@ export default {
             axios.get(`/admin/stock-items/${this.stock_id}`)
             .then(res => {
                 this.stock_items = res.data.data.stock_items;
+                this.stock_items_length = this.stock_items.length;
+                this.itemPagination.page_count = Math.ceil(this.stock_items_length/10)
+                this.items = this.stock_items.slice(this.itemPagination.start,this.itemPagination.end)
             })
+        },
+        setItems(){
+            this.itemPagination.start = 10*(this.itemPagination.page-1);
+            this.itemPagination.end = 10*(this.itemPagination.page-1) + 10;
+
+            if(this.itemPagination.end > this.stock_items_length){
+                this.itemPagination.end = this.stock_items_length
+            }
+            
+            this.items = this.stock_items.slice(this.itemPagination.start,this.itemPagination.end)
         },
         backIndex(){
             window.location.href = '/admin/stocks';
+        },
+        setItemPagination(){
+            this.setItems();
         }
     },
     created(){

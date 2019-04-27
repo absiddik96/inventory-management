@@ -25,6 +25,7 @@
         "datatables.net-bs4": "^1.10.19",
         "moment": "^2.24.0",
         "sweetalert2": "^8.2.6",
-        "vform": "^1.0.0"
+        "vform": "^1.0.0",
+        "vuejs-paginate": "^2.1.0"
     }
 }

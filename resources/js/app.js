@@ -9,6 +9,9 @@ window.Vue = require("vue");
 import { Form, HasError, AlertError } from 'vform'
 import moment from 'moment'
 
+import Paginate from 'vuejs-paginate'
+Vue.component('paginate', Paginate)
+
 Vue.filter('formatDate', function (value) {
     if (value) {
         return moment(String(value)).format('DD/MM/YYYY')
