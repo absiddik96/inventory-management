@@ -19,7 +19,7 @@ class CreatePurchaseItemsTable extends Migration
             $table->integer('category_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->string('unit_price');
-            $table->string('quantity');
+            $table->decimal('quantity', 12, 2);
             $table->string('total');
             $table->timestamps();
 

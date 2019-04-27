@@ -18,7 +18,7 @@ class CreateStocksTable extends Migration
             $table->integer('category_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->string('unit_sell_price');
-            $table->string('quantity')->comment('KG');
+            $table->decimal('quantity', 12, 2)->comment('KG');
             $table->timestamps();
             
             $table->foreign('category_id')->references('id')->on('product_categories')->onDelete('cascade');

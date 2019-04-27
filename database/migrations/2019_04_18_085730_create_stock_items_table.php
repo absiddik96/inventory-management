@@ -18,7 +18,7 @@ class CreateStockItemsTable extends Migration
             $table->integer('stock_id')->unsigned();
             $table->integer('packet_size_id')->unsigned();
             $table->integer('packet_quantity')->unsigned();
-            $table->integer('sub_quantity')->unsigned()->comment('KG');
+            $table->decimal('sub_quantity', 12, 2)->comment('KG');
             $table->timestamps();
             
             $table->foreign('stock_id')->references('id')->on('stocks')->onDelete('cascade');
