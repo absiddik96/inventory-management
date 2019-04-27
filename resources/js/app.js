@@ -7,6 +7,13 @@
 require("./bootstrap");
 window.Vue = require("vue");
 import { Form, HasError, AlertError } from 'vform'
+import moment from 'moment'
+
+Vue.filter('formatDate', function (value) {
+    if (value) {
+        return moment(String(value)).format('DD/MM/YYYY')
+    }
+});
 
 window.Form = Form;
 Vue.component(HasError.name, HasError)
@@ -22,6 +29,7 @@ const toast = swal.mixin({
     showConfirmButton: false,
     timer: 3000
 });
+
 window.Fire = new Vue();
 window.swal = swal;
 window.toast = toast;
@@ -31,12 +39,14 @@ window.toast = toast;
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-Vue.component("example-component", require("./components/ExampleComponent.vue"));
 Vue.component("bank-transaction",require("./components/bank_transactions/Index.vue"));
-Vue.component("bank-transaction-add",require("./components/bank_transactions/Transaction.vue"));
+Vue.component("bank-transaction-add", require("./components/bank_transactions/Transaction.vue"));
+
 Vue.component("bulk-stock-add",require("./components/bulk_stock/Create.vue"));
 Vue.component("bulk-stock-edit",require("./components/bulk_stock/Edit.vue"));
+
+Vue.component("stock-add",require("./components/stock/Create.vue"));
+Vue.component("bulk-stock-show",require("./components/stock/Show.vue"));
 
 const app = new Vue({
     el: "#app"

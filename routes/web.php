@@ -53,4 +53,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     Route::get('/category/{category}/products', 'Admin\Category\CategoryProductController@products',['as' => 'admin'])->name('admin.category.product');
     // Account Bank
     Route::get('/bank/{bank_id}/accounts', 'Admin\Bank\AccountBankController@accounts',['as' => 'admin'])->name('admin.account.bank');
+    
+    // Account Bank
+    Route::get('/category/{category}/purchase-item', 'Admin\BulkStock\PurchaseItemsController@products',['as' => 'admin'])->name('admin.category.purchase-items');
+    //Stock
+    Route::resource('/stocks', 'Admin\Stock\StocksController', ['as' => 'admin']);
+    Route::post('/stock/{stock}/quantity-details', 'Admin\Stock\StocksController@quantityDetails')->name('admin.stock.quantity-details');
+    Route::get('/stock-items/{stock}', 'Admin\Stock\StocksController@getStockItem')->name('admin.stock.items');
+    Route::put('/stock-item/{item}', 'Admin\Stock\StocksController@itemUpdate')->name('admin.stock.item.update');
+    Route::delete('/stock-item/{item}/delete', 'Admin\Stock\StocksController@itemDelete')->name('admin.stock.item.delete');
+    Route::post('/stock-item', 'Admin\Stock\StocksController@itemCreate')->name('admin.stock.item.store');
 });

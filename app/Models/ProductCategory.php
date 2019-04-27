@@ -23,4 +23,9 @@ class ProductCategory extends Model
     {
         return $this->hasMany(Product::class)->where('status',Product::ACTIVE);
     }
+
+    public function purchaseItems()
+    {
+        return $this->hasMany(PurchaseItem::class,'category_id');
+    }
 }

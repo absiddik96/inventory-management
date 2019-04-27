@@ -23,6 +23,7 @@
         "@fortawesome/fontawesome-free": "^5.7.2",
         "admin-lte": "^3.0.0-alpha.2",
         "datatables.net-bs4": "^1.10.19",
+        "moment": "^2.24.0",
         "sweetalert2": "^8.2.6",
         "vform": "^1.0.0"
     }

@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form>
+            <form @submit.prevent="storeData()">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -159,7 +159,7 @@
                     </div>
                 </div>
                 <hr>
-                <button :disabled="submitDisable" type="submit" @click.prevent="storeData" class="btn btn-sm btn-outline-primary float-right"> Submit</button>
+                <button :disabled="submitDisable" type="submit" class="btn btn-sm btn-outline-primary float-right">Submit</button>
             </form>
         </div>
     </div>

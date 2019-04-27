@@ -76,3 +76,10 @@
         <p>Bulk Stock</p>
     </a>
 </li>
+{{-- Bulk Stock --}}
+<li class="nav-item">
+    <a href="{{ route('admin.stocks.index') }}" class="nav-link {{ Request::is('admin/stocks*') ? 'active' : '' }}">
+        <i class="fas fa-database"></i>
+        <p>Stock</p>
+    </a>
+</li>

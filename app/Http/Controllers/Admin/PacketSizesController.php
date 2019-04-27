@@ -29,7 +29,7 @@ class PacketSizesController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'packet_size' => 'required|min:1',
+            'packet_size' => 'required|min:1|unique:packet_sizes',
         ]);
 
         if (PacketSize::create($attributes)) {
@@ -61,7 +61,7 @@ class PacketSizesController extends Controller
     public function update(Request $request, PacketSize $packet_size)
     {
         $attributes = $request->validate([
-            'packet_size' => 'required|min:1',
+            'packet_size' => 'required|min:1|unique:packet_sizes,packet_size,'.$packet_size->id,
         ]);
 
         if ($packet_size->update($attributes)) {
