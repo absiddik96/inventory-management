@@ -9,6 +9,9 @@ window.Vue = require("vue");
 import { Form, HasError, AlertError } from 'vform'
 import moment from 'moment'
 
+import ScrollLoader from 'vue-scroll-loader'
+Vue.use(ScrollLoader)
+
 import Paginate from 'vuejs-paginate'
 Vue.component('paginate', Paginate)
 
@@ -49,7 +52,10 @@ Vue.component("bulk-stock-add",require("./components/bulk_stock/Create.vue"));
 Vue.component("bulk-stock-edit",require("./components/bulk_stock/Edit.vue"));
 
 Vue.component("stock-add",require("./components/stock/Create.vue"));
-Vue.component("bulk-stock-show",require("./components/stock/Show.vue"));
+Vue.component("stock-show", require("./components/stock/Show.vue"));
+
+Vue.component("sell-product-add",require("./components/sell_product/Create.vue"));
+Vue.component("sell-product-edit",require("./components/sell_product/Edit.vue"));
 
 const app = new Vue({
     el: "#app"

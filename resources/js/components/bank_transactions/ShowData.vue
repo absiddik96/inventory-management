@@ -34,6 +34,27 @@
         </div>
         <div class="col-md-12">
             <div class="form-group">
+                <label for="payment">Payment</label>
+            </div>
+        </div>
+        <div v-if="data.payment" class="col-md-6">
+            <div class="form-group">
+                <label for="">From / To : </label>
+                {{ data.from_to?'Supplier':'Dealer' }}
+            </div>
+        </div>
+        <div v-if="data.payment && data.from_to" class="col-md-6">
+            <div class="form-group" v-if="data.from_to == 0">
+                <label for="">Dealer : </label>
+                {{ data.dealer.name }}
+            </div>
+            <div class="form-group" v-if="data.from_to == 1">
+                <label for="">Supplier : </label>
+                {{ data.dealer.name }}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
                 <label for>Note :</label>
                 {{ data.note }}
             </div>

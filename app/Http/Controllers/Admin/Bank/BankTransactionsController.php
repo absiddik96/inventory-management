@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\Bank;
 
 use Session;
 use App\User;
+use App\Models\Dealer;
+use App\Models\Supplier;
 use App\Models\BankAccount;
 use Illuminate\Http\Request;
 use App\Rules\LessThanOrEqual;
@@ -57,7 +59,17 @@ class BankTransactionsController extends Controller
         ]);
 
         $bank_transaction = new BankTransaction();
-        $user = auth()->user();
+        $user = new User();
+        if($request->payment === true){
+            if($request->from_to === '0'){ // 0 represent Dealer
+                $user = Dealer::findOrfail($request->dealer_id);
+            }
+            if($request->from_to === '1'){ // 0 represent supplier
+                $user = Supplier::findOrfail($request->supplier_id);
+            }
+        }else{
+            $user = auth()->user();
+        }
 
         $bank_transaction->bank_id          = $request->bank;
         $bank_transaction->branch_id        = $request->branch;
@@ -66,11 +78,15 @@ class BankTransactionsController extends Controller
         $bank_transaction->amount           = $request->amount;
         $bank_transaction->transaction_date = $request->transaction_date;
         $bank_transaction->note             = $request->note;
-        $bank_transaction->supervisor_id    = $user->id;
+        $bank_transaction->supervisor_id    = auth()->user()->id;
 
         if(!$request->confirm){
             return '';
         }
+
+        // return response()->json([
+        //             'message' => $request->all(),
+        // ]);
 
         if($user->transactions()->save($bank_transaction)){
             return response()->json([

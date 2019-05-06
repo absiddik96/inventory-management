@@ -18,4 +18,14 @@ class Dealer extends Model
     {
         return $this->morphMany(BankTransaction::class, 'transactionable');
     }
+
+    public function buyProduct()
+    {
+        return $this->hasMany(SellProduct::class);
+    }
+
+    public function previousDue()
+    {
+        return $this->buyProduct()->sum('amount_due');
+    }
 }

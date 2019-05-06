@@ -19,6 +19,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::group(['middleware' => ['auth']], function () {
+    // Dealers
+    Route::get('/dealers', 'User\Dealer\DealersController@index')->name('user.dealers');
+    // Stock
+    Route::resource('/sell-products', 'User\SellProduct\SellProductsController', ['as' => 'user']);
+    Route::get('/sell-product/{sellProduct}/dealer-show', 'User\SellProduct\SellProductsController@dealerShow')->name('sell-product.dealer.show');
+    Route::get('/stock-products/{category}/category', 'User\Stock\StockProductsController@products')->name('user.stock.products');
+    Route::get('/stock-packet-sizes/{stock}/stock', 'User\Stock\StockProductsController@packetSizes')->name('user.stock.packet-sizes');
+    // Bank
+    Route::get('/banks', 'Admin\Bank\BanksController@index')->name('user.banks');
+    Route::get('/bank-branchs', 'Admin\Bank\BankBranchsController@index')->name('user.bank-branchs');
+    Route::get('/bank-account/{bank_id}/branch/{branch_id}', 'Admin\Bank\BankAccountsController@bankAccountsByBankBranch')->name('user.bank-accounts.bank-branch');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {

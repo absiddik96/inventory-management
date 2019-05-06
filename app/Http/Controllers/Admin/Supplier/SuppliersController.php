@@ -17,6 +17,12 @@ class SuppliersController extends Controller
      */
     public function index()
     {
+        if(request()->expectsJson()){
+            return response()->json([
+                'data' => Supplier::orderBy('name')->where('status',1)->get()
+            ]);
+        }
+
         return view('admin.suppliers.index')
                 ->with('suppliers', Supplier::orderBy('name')->get());
     }

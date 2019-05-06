@@ -22,4 +22,9 @@ class Product extends Model
     {
         return $this->belongsTo(ProductCategory::class,'product_category_id');
     }
+    
+    public function getStatus()
+    {
+        return $this->status == self::ACTIVE;
+    }
 }

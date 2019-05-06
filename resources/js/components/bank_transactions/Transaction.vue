@@ -74,6 +74,38 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <input type="checkbox" v-model="form.payment" name="payment" id="payment">
+                                    <label for="payment">Payment</label>
+                                </div>
+                            </div>
+                            <div v-if="form.payment" class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">From / To</label>
+                                    <select @change.prevent="getDealerSupplier()" name="from_to" id="" class="form-control " v-model="form.from_to" required>
+                                        <option value="">Choose From / To</option>
+                                        <option value="0">Dealer</option>
+                                        <option value="1">Supplier</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div v-if="form.payment && form.from_to" class="col-md-6">
+                                <div class="form-group" v-if="form.from_to == 0">
+                                    <label for="">Dealer</label>
+                                    <select name="dealer_id" id="" class="form-control " v-model="form.dealer_id" required>
+                                        <option value="">Choose dealer</option>
+                                        <option v-for="(dealer,index) in dealers" :key="index" :value="dealer.id">{{ dealer.name }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" v-if="form.from_to == 1">
+                                    <label for="">Supplier</label>
+                                    <select name="supplier_id" id="" class="form-control " v-model="form.supplier_id" required>
+                                        <option value="">Choose supplier</option>
+                                        <option v-for="(supplier,index) in suppliers" :key="index" :value="supplier.id">{{ supplier.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label for="">Note</label>
                                     <textarea name="note" id="" cols="30" rows="5" class="form-control" v-model="form.note"></textarea>
                                 </div>
@@ -114,25 +146,35 @@ export default {
             banks: {},
             branches: {},
             bank_accounts: {},
+            suppliers: [],
+            dealers: [],
             form: new Form({
                 id: '',
                 bank: '',
+                note: '',
+                amount: '',
                 branch: '',
+                from_to: '',
+                dealer_id: '',
+                supplier_id: '',
+                confirm: false,
+                payment: false,
                 bank_account: '',
                 transaction_type: '',
-                amount: '',
                 transaction_date: '',
-                note: '',
-                confirm: false,
             }),
             formData: {
                 bank: '',
+                note: '',
+                amount: '',
                 branch: '',
+                from_to: '',
+                dealer: '',
+                supplier: '',
+                payment: false,
                 bank_account: '',
                 transaction_type: '',
-                amount: '',
                 transaction_date: '',
-                note: '',
             }
         }
     },
@@ -224,9 +266,29 @@ export default {
             this.formData.transaction_date = this.form.transaction_date;
             this.formData.amount = this.form.amount;
             this.formData.note = this.form.note;
+            this.formData.payment = this.form.payment;
+            this.formData.from_to = this.form.from_to;
+            this.formData.supplier = this.suppliers.find(({id}) => id === this.form.supplier_id );
+            this.formData.dealer = this.dealers.find(({id}) => id === this.form.dealer_id );
 
             return this.formData
+        },
+        getDealerSupplier(){
+            if(this.form.from_to == 0){
+                axios.get(`/admin/dealers`)
+                .then(res => {
+                    this.dealers = res.data.data;
+                })
+            }
+            if(this.form.from_to == 1){
+                axios.get(`/admin/suppliers`)
+                .then(res => {
+                    this.suppliers = res.data.data;
+                })
+            }
         }
+
+
     },
     computed: {
         endPoint() {

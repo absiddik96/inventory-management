@@ -77,7 +77,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for>Shop Name :</label>
-                                            {{ data.transactionable.company_name }}
+                                            {{ data.transactionable.shop_name }}
                                         </div>
                                     </div>
                                 </div>

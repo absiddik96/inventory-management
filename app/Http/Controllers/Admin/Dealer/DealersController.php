@@ -17,6 +17,12 @@ class DealersController extends Controller
      */
     public function index()
     {
+        if(request()->expectsJson()){
+            return response()->json([
+                'data' => Dealer::orderBy('name')->where('status',1)->get()
+            ]);
+        }
+
         return view('admin.dealers.index')
                 ->with('dealers', Dealer::orderBy('name')->get());
     }
