@@ -24,6 +24,10 @@ Route::group(['middleware' => ['auth']], function () {
     // Stock
     Route::resource('/sell-products', 'User\SellProduct\SellProductsController', ['as' => 'user']);
     Route::get('/sell-product/{sellProduct}/dealer-show', 'User\SellProduct\SellProductsController@dealerShow')->name('sell-product.dealer.show');
+    // PDF
+    Route::get('/sell-product/{sellProduct}/dealer-pdf', 'User\SellProduct\SellProductsController@dealerPDF')->name('sell-product.dealer.pdf');
+    Route::get('/sell-product/{sellProduct}/own-pdf', 'User\SellProduct\SellProductsController@PDFDownload')->name('sell-product.own.pdf');
+    
     Route::get('/stock-products/{category}/category', 'User\Stock\StockProductsController@products')->name('user.stock.products');
     Route::get('/stock-packet-sizes/{stock}/stock', 'User\Stock\StockProductsController@packetSizes')->name('user.stock.packet-sizes');
     // Bank

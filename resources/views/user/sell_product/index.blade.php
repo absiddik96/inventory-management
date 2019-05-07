@@ -38,10 +38,10 @@
                                         <td>{{ $sell_detail->memo_no }}</td>
                                         <td>{{ $sell_detail->date }}</td>
                                         <td>
-                                            <a href="" class="btn btn-sm btn-outline-info">
+                                            <a href="{{ route('sell-product.dealer.pdf', $sell_detail->id) }}" class="btn btn-sm btn-outline-info">
                                                 <i class="fa fa-download"></i> Dealer
                                             </a>
-                                            <a href="" class="btn btn-sm btn-outline-info">
+                                            <a href="{{ route('sell-product.own.pdf', $sell_detail->id) }}" class="btn btn-sm btn-outline-info">
                                                     <i class="fa fa-download"></i> Own
                                             </a>
                                         </td>

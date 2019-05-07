@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User\SellProduct;
 
+use PDF;
 use App\Models\Bank;
 use App\Models\Stock;
 use App\Models\Dealer;
@@ -12,6 +13,7 @@ use App\Models\BankTransaction;
 use App\Models\SellProductItem;
 use App\Http\Controllers\Controller;
 use App\Traits\Dealer as AppDealer;
+use Illuminate\Support\Facades\Session;
 
 class SellProductsController extends Controller
 {
@@ -118,6 +120,18 @@ class SellProductsController extends Controller
             ->with('dealer_previous_due',$this->dealerPreviousDue($sellProduct->dealer_id)[0]);
     }
 
+    public function PDFDownload(SellProduct $sellProduct){
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', 180);
+
+        $sell_product = $sellProduct->load(['sellProductItems','sellProductItems.packetSize','transaction','transaction.bankAccount']);
+        $dealer_previous_due = $this->dealerPreviousDue($sellProduct->dealer_id)[0];
+
+        $pdf = PDF::loadView('PDF.sell_product.own',['sell_product'=>$sell_product,'dealer_previous_due'=>$dealer_previous_due]);
+        $pdf->setPaper('A4', 'portal');
+        return $pdf->download($sell_product->dealer->name.'-'.strtoupper($sell_product->invoice_no).'.pdf');        
+    }
+
     /**
      * Display the specified resource.
      *
@@ -128,6 +142,22 @@ class SellProductsController extends Controller
         return view('user.sell_product.dealer_show')
             ->with('sell_product', $sellProduct->load(['sellProductItems','sellProductItems.packetSize','transaction','transaction.bankAccount']))
             ->with('dealer_previous_due',$this->dealerPreviousDue($sellProduct->dealer_id)[0]);
+    }
+
+    public function dealerPDF(SellProduct $sellProduct){
+        // return view('PDF.sell_product.dealer')
+        //     ->with('sell_product', $sellProduct->load(['sellProductItems','sellProductItems.packetSize','transaction','transaction.bankAccount']))
+        //     ->with('dealer_previous_due',$this->dealerPreviousDue($sellProduct->dealer_id)[0]);
+
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', 180);
+
+        $sell_product = $sellProduct->load(['sellProductItems','sellProductItems.packetSize','transaction','transaction.bankAccount']);
+        $dealer_previous_due = $this->dealerPreviousDue($sellProduct->dealer_id)[0];
+
+        $pdf = PDF::loadView('PDF.sell_product.dealer',['sell_product'=>$sell_product,'dealer_previous_due'=>$dealer_previous_due]);
+        $pdf->setPaper('A4', 'portal');
+        return $pdf->download($sell_product->dealer->name.'-'.strtoupper($sell_product->invoice_no).'.pdf');        
     }
 
     /**
@@ -226,6 +256,15 @@ class SellProductsController extends Controller
      */
     public function destroy(SellProduct $sellProduct)
     {
-        //
+        if($sellProduct->transaction_id){
+            $sellProduct->transaction()->delete();
+        }
+        $sellProduct->sellProductItems()->delete();
+
+        if($sellProduct->delete()){
+            Session::flash('success','Sell Product has been deleted successfully');
+        }
+
+        return redirect()->back();
     }
 }
