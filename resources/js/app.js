@@ -55,7 +55,11 @@ Vue.component("stock-add",require("./components/stock/Create.vue"));
 Vue.component("stock-show", require("./components/stock/Show.vue"));
 
 Vue.component("sell-product-add",require("./components/sell_product/Create.vue"));
-Vue.component("sell-product-edit",require("./components/sell_product/Edit.vue"));
+Vue.component("sell-product-edit", require("./components/sell_product/Edit.vue"));
+
+Vue.component("daily-record-index",require("./components/daily_records/Index.vue"));
+Vue.component("daily-record-create",require("./components/daily_records/Create.vue"));
+
 
 const app = new Vue({
     el: "#app"

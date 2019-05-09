@@ -34,6 +34,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/banks', 'Admin\Bank\BanksController@index')->name('user.banks');
     Route::get('/bank-branchs', 'Admin\Bank\BankBranchsController@index')->name('user.bank-branchs');
     Route::get('/bank-account/{bank_id}/branch/{branch_id}', 'Admin\Bank\BankAccountsController@bankAccountsByBankBranch')->name('user.bank-accounts.bank-branch');
+    // Daily Records
+    Route::resource('/daily-records', 'User\DailyRecord\DailyRecordsController', ['as' => 'user'])->only(['index', 'store']);
+    Route::post('/daily-records/credit-data', 'User\DailyRecord\DailyRecordsController@creditData');
+    Route::post('/daily-records/debit-data', 'User\DailyRecord\DailyRecordsController@debitData');
+    Route::post('/daily-records/previous-amount', 'User\DailyRecord\DailyRecordsController@previousAmount');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {

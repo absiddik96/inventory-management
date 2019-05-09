@@ -54,3 +54,13 @@ $fa-font-path: "../webfonts";
 .main-sidebar{
     overflow: hidden;
 }
+
+.pre_amount {
+    border-radius: 15px 50px 30px;
+  background: #343A40;
+  padding: 20px; 
+  width: 200px;
+  color: rgb(255, 253, 253);
+  font-size: 20px;
+  font-family: monospace;
+}

@@ -31490,3 +31490,13 @@ readers do not read off random characters that represent icons */
   overflow: hidden;
 }
 
+.pre_amount {
+  border-radius: 15px 50px 30px;
+  background: #343A40;
+  padding: 20px;
+  width: 200px;
+  color: #fffdfd;
+  font-size: 20px;
+  font-family: monospace;
+}
+
