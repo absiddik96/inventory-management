@@ -31130,6 +31130,9 @@ try {
 
 window.axios = __webpack_require__(8);
 
+// axios base url
+window.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content;
+
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 /**
