@@ -31500,3 +31500,10 @@ readers do not read off random characters that represent icons */
   font-family: monospace;
 }
 
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active,
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active:hover {
+  color: white;
+  background-color: #1E282C;
+  border-left: 3px solid #3C8DBC;
+}
+

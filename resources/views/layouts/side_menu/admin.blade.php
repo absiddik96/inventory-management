@@ -1,6 +1,6 @@
 <!-- User Management -->
 <li class="nav-item has-treeview">
-    <a href="#" class="nav-link">
+    <a href="#" class="nav-link {{ Request::is('admin/users*') || Request::is('admin/suppliers*') || Request::is('admin/dealers*') ? 'active' : '' }}">
         <i class="fas fa-user"></i>
         <p>
             User Management
@@ -37,7 +37,7 @@
 
 <!-- Product Management -->
 <li class="nav-item has-treeview">
-    <a href="#" class="nav-link">
+    <a href="#" class="nav-link {{ Request::is('admin/packet-sizes*') || Request::is('admin/product/categories*') || Request::is('admin/products*') ? 'active' : '' }}">
         <i class="fab fa-product-hunt"></i>
         <p>
             Product Management
@@ -74,7 +74,7 @@
 
 <!-- Banks Management -->
 <li class="nav-item has-treeview">
-    <a href="#" class="nav-link">
+    <a href="#" class="nav-link {{ Request::is('admin/banks*') || Request::is('admin/bankbranchs*') || Request::is('admin/bank-accounts*') || Request::is('admin/bank-transactions*') ? 'active' : '' }}">
         <i class="fas fa-university"></i>
         <p>
             Banking System

@@ -64,3 +64,9 @@ $fa-font-path: "../webfonts";
   font-size: 20px;
   font-family: monospace;
 }
+
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active, .sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active:hover {
+    color: white;
+    background-color: #1E282C;
+    border-left: 3px solid #3C8DBC;
+}
