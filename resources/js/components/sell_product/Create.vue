@@ -217,7 +217,7 @@ export default {
                 dealer: '',
                 invoice_no: this.getInvoiceNo(),
                 memo_no: '',
-                date: '',
+                date: moment(new Date()).format("YYYY-MM-DD"),
                 sell_items: [],
                 grand_total: 0,
                 amount_pay: 0,
@@ -250,6 +250,7 @@ export default {
                     this.form.reset();
                     this.form.invoice_no = this.getInvoiceNo();
                     this.category_id = '';
+                    this.getDealers();
                 })
             }else{
                 toast.fire({
@@ -266,9 +267,6 @@ export default {
     created(){
         this.getDealers();
         this.getInvoiceNo();
-    },
-    updated(){
-        this.getDealers();
     }
 }
 </script>

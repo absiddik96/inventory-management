@@ -39,6 +39,7 @@ const toast = swal.mixin({
 window.Fire = new Vue();
 window.swal = swal;
 window.toast = toast;
+window.moment = moment;
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
