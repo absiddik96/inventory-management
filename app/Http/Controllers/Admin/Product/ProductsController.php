@@ -6,10 +6,14 @@ use Session;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use App\Traits\ProductQuantity;
 use App\Http\Controllers\Controller;
 
 class ProductsController extends Controller
 {
+
+    use ProductQuantity;
+
     /**
      * Display a listing of the resource.
      *
@@ -67,8 +71,10 @@ class ProductsController extends Controller
      */
     public function show(Product $product)
     {
+        $bulk_quantity = $this->bulkStockQuantity($product->id);
         return view('admin.product.products.show')
-                ->with('product', $product);
+                ->with('product', $product)
+                ->with('bulk_stock_quantity', $bulk_quantity?$bulk_quantity[0]:'');
     }
 
     /**
