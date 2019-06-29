@@ -37,8 +37,10 @@
                                             <a class="badge {{ $dealer->status ? 'badge-danger' : 'badge-success' }}" href="{{ route('admin.dealers.change_status', $dealer->id) }}">{{ status(!$dealer->status) }}</a>
                                         </td>
                                         <td>
-                                            @include('admin.dealers.show')
+                                            <a href="{{ route('admin.dealers.show', $dealer->id) }}" class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i></a>
+                                                
                                             <a href="{{ route('admin.dealers.edit', $dealer->id) }}" class="btn btn-sm btn-outline-info"><i class="fa fa-edit"></i></a>
+                                            
                                             @include('includes._confirm_delete',[
                                                 'action' => route('admin.dealers.destroy', $dealer->id),
                                                 'id' => $dealer->id

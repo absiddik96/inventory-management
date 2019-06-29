@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Dealer;
 
 use App\Models\Dealer;
+use App\Traits\Dealer as AppDealer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\CreateDealerRequest;
@@ -10,6 +11,9 @@ use App\Http\Requests\UpdateDealerRequest;
 
 class DealersController extends Controller
 {
+
+    use AppDealer;
+
     /**
      * Display a listing of the resource.
      *
@@ -60,7 +64,8 @@ class DealersController extends Controller
     public function show(Dealer $dealer)
     {
         return view('admin.dealers.show')
-                ->with('dealer', $dealer);
+                ->with('dealer', $dealer)
+                ->with('dealer_due', $this->dealerPreviousDue($dealer->id)[0]);
     }
 
     /**
