@@ -116,7 +116,7 @@ export default {
             })
         },
         backIndex(){
-            window.location.href = '/sell-products';
+            window.location.href = baseURL+'/sell-products';
         }
     },
     computed: {

@@ -165,7 +165,7 @@ export default {
             this.items = this.stock_items.slice(this.itemPagination.start,this.itemPagination.end)
         },
         backIndex(){
-            window.location.href = '/admin/stocks';
+            window.location.href = baseURL + '/admin/stocks';
         },
         setItemPagination(){
             this.setItems();

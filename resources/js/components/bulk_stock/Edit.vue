@@ -276,7 +276,7 @@ export default {
             }
         },
         backIndex(){
-            window.location.href = '/admin/bulk-stock';
+            window.location.href = baseURL + '/admin/bulk-stock';
         }
     },
     computed: {

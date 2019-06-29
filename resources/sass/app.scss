@@ -70,3 +70,9 @@ $fa-font-path: "../webfonts";
     background-color: #1E282C;
     border-left: 3px solid #3C8DBC;
 }
+
+input::-webkit-inner-spin-button, 
+input::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

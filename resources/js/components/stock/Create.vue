@@ -209,7 +209,7 @@ export default {
             }
         },
         backIndex(){
-            window.location.href = '/admin/stocks';
+            window.location.href = baseURL + '/admin/stocks';
         }
     },
     computed: {
