@@ -54,13 +54,6 @@
                         @endif
                     </div>
                     <div class="row">
-                        <div class="col-8">
-                            <div class="checkbox icheck">
-                                <label>
-                                    <input type="checkbox"> Remember Me
-                                </label>
-                            </div>
-                        </div>
                         <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
@@ -68,10 +61,6 @@
                         <!-- /.col -->
                     </div>
                 </form>
-
-                <p class="mb-1">
-                    <a href="#">I forgot my password</a>
-                </p>
             </div>
             <!-- /.login-card-body -->
         </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\CreateDealerRequest;
 use App\Http\Requests\UpdateDealerRequest;
+use App\Models\SellProduct;
 
 class DealersController extends Controller
 {
@@ -65,7 +66,8 @@ class DealersController extends Controller
     {
         return view('admin.dealers.show')
                 ->with('dealer', $dealer)
-                ->with('dealer_due', $this->dealerPreviousDue($dealer->id)[0]);
+                ->with('dealer_due', $this->dealerPreviousDue($dealer->id)[0])
+                ->with('purchase_history', SellProduct::where('dealer_id',$dealer->id)->orderBy('created_at','desc')->get());
     }
 
     /**

@@ -63,10 +63,10 @@
                                 <tr>
                                     <td width="5%">Serial No</td>
                                     <td width="15%">Product Name</td>
-                                    <td width="15%">Packet Size (gm)</td>
-                                    <td width="15%">Packet Quantity</td>
-                                    <td width="15%">Quantity (Kg)</td>
-                                    <td width="15%">Unit Price / Kg (৳)</td>
+                                    <td width="20%">Packet Size (gm)</td>
+                                    <td width="25%">Packet Quantity</td>
+                                    <td width="10%">Quantity (Kg)</td>
+                                    <td width="10%">Unit Price / Kg (৳)</td>
                                     <td width="10%">Total (৳)</td>
                                     <td width="10%">Action</td>
                                 </tr>
@@ -82,7 +82,7 @@
                                         </select>
                                     </td>
                                     <td style="display: flex">
-                                        <input required style="padding-right:30%" @keyup.prevent="grandTotal()" type="number" class="form-control" :class="{'is-invalid':parseInt(p_item.quantity)>(parseInt(p_item.packet_size.packet_quantity)+parseInt(p_item.packet_quantity))}" v-model="p_item.quantity">  <p style="margin: 7px 0 -7px -27%">/ {{ p_item.packet_size.packet_quantity?(parseInt(p_item.packet_size.packet_quantity)+parseInt(p_item.packet_quantity)):0 }}</p>
+                                        <input required style="padding-right:30%" @keyup.prevent="grandTotal()" type="number" class="form-control" :class="{'is-invalid':parseInt(p_item.quantity)>(parseInt(p_item.packet_size.packet_quantity)+parseInt(p_item.packet_quantity))}" v-model="p_item.quantity">  <p style="margin: 7px 0 -7px -50%">/ {{ p_item.packet_size.packet_quantity?(parseInt(p_item.packet_size.packet_quantity)+parseInt(p_item.packet_quantity)):0 }}</p>
                                     </td>
                                     <td>{{ p_item.total_quantity = isNaN(parseFloat(((p_item.quantity*p_item.packet_size.packet_size)/1000)))?0:parseFloat(((p_item.quantity*p_item.packet_size.packet_size)/1000)) }}</td>
                                     <td>

@@ -61,6 +61,41 @@
         </div>
     </div>
 </div>
+
+
+<div class="col-md-12">
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <div class="d-flex">
+                <h5>Purchase History</h5>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered dataTable">
+                <thead>
+                    <th>#</th>
+                    <th>Invoice No</th>
+                    <th>Total Amount</th>
+                    <th>Payment Amount</th>
+                    <th>Due Amount</th>
+                </thead>
+                <tbody>
+                    @if ($purchase_history->count())
+                        @foreach ($purchase_history as $key => $item)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td class="text-uppercase">{{ $item->invoice_no }}</td>
+                                <td>{{ $item->grand_total }}</td>
+                                <td>{{ $item->amount_pay }}</td>
+                                <td>{{ $item->amount_due }}</td>
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @endsection
 
 

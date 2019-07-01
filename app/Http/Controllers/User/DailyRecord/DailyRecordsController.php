@@ -42,15 +42,19 @@ class DailyRecordsController extends Controller
 
     public function creditData()
     {
+        $data = DailyRecord::where('transaction_type', 1)->whereDate('created_at', Carbon::today())->get();
         return response()->json([
-            'data' => DailyRecord::where('transaction_type', 1)->whereDate('created_at', Carbon::today())->get()
+            'data' => $data,
+            'total' => $data->sum('amount')
         ]);
     }
 
     public function debitData()
     {
+        $data = DailyRecord::where('transaction_type', 0)->whereDate('created_at', Carbon::today())->get();
         return response()->json([
-            'data' => DailyRecord::where('transaction_type', 0)->whereDate('created_at', Carbon::today())->get()
+            'data' => $data,
+            'total' => $data->sum('amount')
         ]);
     }
 
@@ -67,5 +71,34 @@ class DailyRecordsController extends Controller
         return response()->json([
             'data' => collect(DB::select($SQL))[0]->previous_amount
         ]);
+    }
+
+    public function previousAmountByDate($date)
+    {
+        $SQL = 'SELECT IFNULL((table_credit.credit - table_debit.debit), 0) AS previous_amount
+
+                FROM `daily_records`
+                JOIN (SELECT IFNULL(SUM(amount), 0) AS credit FROM `daily_records` WHERE transaction_type = 1 AND DATE(created_at) < "'. $date .'") as table_credit
+                JOIN (SELECT IFNULL(SUM(amount), 0) AS debit FROM `daily_records` WHERE transaction_type = 0 AND DATE(created_at) < "'. $date .'") AS table_debit
+                
+                GROUP BY previous_amount';
+
+        return collect(DB::select($SQL));
+    }
+
+    public function archive()
+    {
+        return view('user.daily_records.archive')
+        ->with('dates', DailyRecord::select('id',DB::raw('DATE(created_at) as created_at'))->orderBy(DB::raw('DATE(created_at)'),'desc')->groupBY(DB::raw('DATE(created_at)'))->get());
+    }
+
+    public function archiveData($date)
+    {
+        $date = date('Y-m-d', strtotime($date));
+        return view('user.daily_records.archives_data')
+                ->with('date',$date)
+                ->with('previous_amount',$this->previousAmountByDate($date))
+                ->with('credits',DailyRecord::where('created_at',$date)->where('transaction_type',1)->get())
+                ->with('debits',DailyRecord::where('created_at',$date)->where('transaction_type',0)->get());
     }
 }

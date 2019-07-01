@@ -94686,7 +94686,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "p",
-                              { staticStyle: { margin: "7px 0 -7px -27%" } },
+                              { staticStyle: { margin: "7px 0 -7px -50%" } },
                               [
                                 _vm._v(
                                   "/ " +
@@ -95401,13 +95401,13 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("td", { attrs: { width: "15%" } }, [_vm._v("Product Name")]),
         _vm._v(" "),
-        _c("td", { attrs: { width: "15%" } }, [_vm._v("Packet Size (gm)")]),
+        _c("td", { attrs: { width: "20%" } }, [_vm._v("Packet Size (gm)")]),
         _vm._v(" "),
-        _c("td", { attrs: { width: "15%" } }, [_vm._v("Packet Quantity")]),
+        _c("td", { attrs: { width: "25%" } }, [_vm._v("Packet Quantity")]),
         _vm._v(" "),
-        _c("td", { attrs: { width: "15%" } }, [_vm._v("Quantity (Kg)")]),
+        _c("td", { attrs: { width: "10%" } }, [_vm._v("Quantity (Kg)")]),
         _vm._v(" "),
-        _c("td", { attrs: { width: "15%" } }, [_vm._v("Unit Price / Kg (৳)")]),
+        _c("td", { attrs: { width: "10%" } }, [_vm._v("Unit Price / Kg (৳)")]),
         _vm._v(" "),
         _c("td", { attrs: { width: "10%" } }, [_vm._v("Total (৳)")]),
         _vm._v(" "),
@@ -96260,7 +96260,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "p",
-                              { staticStyle: { margin: "7px 0 -7px -27%" } },
+                              { staticStyle: { margin: "7px 0 -7px -50%" } },
                               [
                                 _vm._v(
                                   "/ " +
@@ -97013,13 +97013,13 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("td", { attrs: { width: "15%" } }, [_vm._v("Product Name")]),
         _vm._v(" "),
-        _c("td", { attrs: { width: "15%" } }, [_vm._v("Packet Size (gm)")]),
+        _c("td", { attrs: { width: "20%" } }, [_vm._v("Packet Size (gm)")]),
         _vm._v(" "),
-        _c("td", { attrs: { width: "15%" } }, [_vm._v("Packet Quantity")]),
+        _c("td", { attrs: { width: "25%" } }, [_vm._v("Packet Quantity")]),
         _vm._v(" "),
-        _c("td", { attrs: { width: "15%" } }, [_vm._v("Quantity (Kg)")]),
+        _c("td", { attrs: { width: "10%" } }, [_vm._v("Quantity (Kg)")]),
         _vm._v(" "),
-        _c("td", { attrs: { width: "15%" } }, [_vm._v("Unit Price / Kg (৳)")]),
+        _c("td", { attrs: { width: "10%" } }, [_vm._v("Unit Price / Kg (৳)")]),
         _vm._v(" "),
         _c("td", { attrs: { width: "10%" } }, [_vm._v("Total (৳)")]),
         _vm._v(" "),
@@ -97138,53 +97138,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      creditData: [],
-      debitData: [],
-      previous_amount: ''
-    };
-  },
-
-  methods: {
-    getHumanDate: function getHumanDate() {
-      var date = new Date().toISOString().slice(0, 10);
-      return __WEBPACK_IMPORTED_MODULE_0_moment___default()(date, "YYYY-MM-DD").format("DD-MMMM-YYYY");
+    data: function data() {
+        return {
+            creditData: [],
+            debitData: [],
+            creditTotal: null,
+            debitTotal: null,
+            previous_amount: ''
+        };
     },
-    getCreditData: function getCreditData() {
-      var _this = this;
 
-      axios.post("/daily-records/credit-data").then(function (res) {
-        _this.creditData = res.data.data;
-      });
-    },
-    getDebitData: function getDebitData() {
-      var _this2 = this;
+    methods: {
+        getHumanDate: function getHumanDate() {
+            var date = new Date().toISOString().slice(0, 10);
+            return __WEBPACK_IMPORTED_MODULE_0_moment___default()(date, "YYYY-MM-DD").format("DD-MMMM-YYYY");
+        },
+        getCreditData: function getCreditData() {
+            var _this = this;
 
-      axios.post("/daily-records/debit-data").then(function (res) {
-        _this2.debitData = res.data.data;
-      });
-    },
-    getPreviousAmount: function getPreviousAmount() {
-      var _this3 = this;
+            axios.post("/daily-records/credit-data").then(function (res) {
+                _this.creditData = res.data.data;
+                _this.creditTotal = res.data.total;
+            });
+        },
+        getDebitData: function getDebitData() {
+            var _this2 = this;
 
-      axios.post("/daily-records/previous-amount").then(function (res) {
-        _this3.previous_amount = res.data.data;
-      });
+            axios.post("/daily-records/debit-data").then(function (res) {
+                _this2.debitData = res.data.data;
+                _this2.debitTotal = res.data.total;
+            });
+        },
+        getPreviousAmount: function getPreviousAmount() {
+            var _this3 = this;
+
+            axios.post("/daily-records/previous-amount").then(function (res) {
+                _this3.previous_amount = res.data.data;
+            });
+        },
+        getData: function getData() {
+            this.getCreditData();
+            this.getDebitData();
+        },
+        todayTotal: function todayTotal() {
+            return this.creditTotal - this.debitTotal;
+        }
     },
-    getData: function getData() {
-      this.getCreditData();
-      this.getDebitData();
+    created: function created() {
+        this.getCreditData();
+        this.getDebitData();
+        this.getPreviousAmount();
     }
-  },
-  created: function created() {
-    this.getCreditData();
-    this.getDebitData();
-    this.getPreviousAmount();
-  }
 });
 
 /***/ }),
@@ -97282,6 +97293,12 @@ var render = function() {
               }),
               0
             )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("hr"),
+            _vm._v(" "),
+            _c("h3", [_vm._v("Total: " + _vm._s(_vm.todayTotal()))])
           ])
         ])
       ])

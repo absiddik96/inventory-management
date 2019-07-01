@@ -39,6 +39,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/daily-records/credit-data', 'User\DailyRecord\DailyRecordsController@creditData');
     Route::post('/daily-records/debit-data', 'User\DailyRecord\DailyRecordsController@debitData');
     Route::post('/daily-records/previous-amount', 'User\DailyRecord\DailyRecordsController@previousAmount');
+    Route::get('/daily-records/archive', 'User\DailyRecord\DailyRecordsController@archive')->name('daily-records.archive');
+    Route::get('/daily-records/{date}/archive', 'User\DailyRecord\DailyRecordsController@archiveData')->name('daily-records.archive-data');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
