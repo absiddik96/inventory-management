@@ -38,18 +38,24 @@
                                         <td>{{ phone($user->phone) }}</td>
                                         <td>
                                             {{ isAdmin($user->is_admin) }}
-                                            <a href="{{ route('admin.users.type', $user->id) }}" class="ml-2 badge {{ $user->is_admin?'text-white badge-info':'badge-success' }}">{{ isAdmin(!$user->is_admin) }}</a>
+                                            @if ($user->id != auth()->user()->id)
+                                                <a href="{{ route('admin.users.type', $user->id) }}" class="ml-2 badge {{ $user->is_admin?'text-white badge-info':'badge-success' }}">{{ isAdmin(!$user->is_admin) }}</a>
+                                            @endif
                                         </td>
                                         <td>
                                             {{ status($user->status) }}
-                                            <a href="{{ route('admin.users.status', $user->id) }}" class="ml-2 badge {{ $user->status?'text-white badge-danger':'badge-success' }}">{{ status(!$user->status) }}</a>
+                                            @if ($user->id != auth()->user()->id)
+                                                <a href="{{ route('admin.users.status', $user->id) }}" class="ml-2 badge {{ $user->status?'text-white badge-danger':'badge-success' }}">{{ status(!$user->status) }}</a>
+                                            @endif
                                         </td>
                                         <td>
                                             <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-outline-info"><i class="fa fa-edit"></i></a>
-                                            @include('includes._confirm_delete',[
-                                                'action' => route('admin.users.destroy', $user->id),
-                                                'id' => $user->id
-                                            ])
+                                            @if ($user->id != auth()->user()->id)
+                                                @include('includes._confirm_delete',[
+                                                    'action' => route('admin.users.destroy', $user->id),
+                                                    'id' => $user->id
+                                                ])
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

@@ -98,7 +98,7 @@ class DailyRecordsController extends Controller
         return view('user.daily_records.archives_data')
                 ->with('date',$date)
                 ->with('previous_amount',$this->previousAmountByDate($date))
-                ->with('credits',DailyRecord::where('created_at',$date)->where('transaction_type',1)->get())
-                ->with('debits',DailyRecord::where('created_at',$date)->where('transaction_type',0)->get());
+                ->with('credits',DailyRecord::where(DB::raw('DATE(created_at)'),$date)->where('transaction_type',1)->get())
+                ->with('debits',DailyRecord::where(DB::raw('DATE(created_at)'),$date)->where('transaction_type',0)->get());
     }
 }
