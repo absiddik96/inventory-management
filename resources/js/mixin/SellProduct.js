@@ -82,8 +82,9 @@ export default {
             this.amountDueCount();
         },
         amountDueCount(){
-            this.form.amount_due = parseFloat(this.form.grand_total).toFixed(2) - this.form.amount_pay;
             this.totalDueCount();
+            this.form.amount_due = parseFloat(this.form.total_due).toFixed(2) - parseFloat(this.form.amount_pay).toFixed(2);
+            
         },
         grandTotalCounter(){
             return this.form.grand_total = this.form.sell_items.reduce(function(total, item){
@@ -91,7 +92,7 @@ export default {
             },0);
         },
         totalDueCount(){
-            this.form.total_due = this.form.previous_due + this.form.amount_due;
+            this.form.total_due = Number(this.form.previous_due) + Number(this.form.grand_total);
         },
         removeItem(index){
             Swal.fire({

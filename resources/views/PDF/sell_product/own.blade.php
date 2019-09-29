@@ -84,6 +84,8 @@
             <p class="m-0 company-name cust-font">Masud Seed Company</p>
             <p class="m-0 font-12">Seed Grower, Importer, Exporter & Supplier</p>
             <p class="m-0 mb-3 font-12">174, Siddique Bazar, Dhaka-1000, Bangladesh</p>
+            <p class="m-0 mb-3 font-12">Email: masudseed@yahoo.com, bmmohsin@gmail.com</p>
+            <p class="m-0 mb-3 font-12">Mobile: 01403337415, Phone: 0247112986</p>
         </div>
         <div class="font-12">
             <div class="pt-35">
@@ -97,6 +99,11 @@
                         <th>Dealer</th>
                         <td>:</td>
                         <td>{{ $sell_product->dealer->name }}</td>
+                    </tr>
+                    <tr class="p-0">
+                        <th>Dealer</th>
+                        <td>:</td>
+                        <td>{{ $sell_product->dealer->dealer_code }}</td>
                     </tr>
                     <tr class="p-0">
                         <th>Date</th>
@@ -148,19 +155,29 @@
                         <td>{{ $sell_product->grand_total }} (tk)</td>
                     </tr>
                     <tr>
-                        <th>Amount Due</th>
+                        <th>Previous Due</th>
                         <td>:</td>
-                        <td>{{ $sell_product->amount_due }} (tk)</td>
+                        <td>{{ $dealer_previous_due->total_amount_due??'0' }}</td>
                     </tr>
                     <tr>
                         <th>Total Due</th>
                         <td>:</td>
-                        <td>{{ ($dealer_previous_due->total_amount - $dealer_previous_due->total_amount_pay) }} (tk)</td>
+                        <td>{{ $total_due = ($dealer_previous_due->total_amount_due + $sell_product->grand_total) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Commission</th>
+                        <td>:</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Amount Pay</th>
                         <td>:</td>
-                        <td>{{ $sell_product->amount_pay }} (tk)</td>
+                        <td>{{ $sell_product->amount_pay }}</td>
+                    </tr>
+                    <tr>
+                        <th>Amount Due</th>
+                        <td>:</td>
+                        <td>{{ $total_due - $sell_product->amount_pay }}</td>
                     </tr>
                     <tr>
                         <th>Is Verified</th>

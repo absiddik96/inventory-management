@@ -133,3 +133,11 @@
         <p>Stock</p>
     </a>
 </li>
+
+<!--Staff -->
+<li class="nav-item">
+    <a href="{{ route('admin.staffs.index') }}" class="nav-link {{ Request::is('admin/staffs*') ? 'active' : '' }}">
+        <i class="fas fa-users"></i>
+        <p>Staff</p>
+    </a>
+</li>

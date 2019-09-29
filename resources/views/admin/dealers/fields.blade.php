@@ -21,6 +21,13 @@
                 <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('email') }}</strong></span>
             @endif
         </div>
+        <div class="form-group">
+            {!! Form::label('code', 'Code *') !!} 
+            {!! Form::text('code', isset($code)?$code:null, ['class' => 'form-control '.($errors->has('code') ? 'is-invalid' : ''), 'readonly' => 'readonly', 'placeholder'=>'Enter code']) !!}
+            @if ($errors->has('code'))
+                <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('code') }}</strong></span>
+            @endif
+        </div>
     </div>
     <div class="col-md-6">
         <div class="form-group">
@@ -44,8 +51,6 @@
                 <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('trad_license') }}</strong></span>
             @endif
         </div>
-    </div>
-    <div class="col-md-12">
         <div class="form-group">
             {!! Form::label('address', 'Address *') !!} 
             {!! Form::text('address', null, ['class' => 'form-control '.($errors->has('address') ? 'is-invalid' : ''), 'placeholder'=>'Enter address']) !!}

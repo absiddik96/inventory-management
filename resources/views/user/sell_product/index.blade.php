@@ -19,9 +19,10 @@
                         <table class="table table-bordered table-striped dataTable" role="grid">
                             <thead>
                                 <tr role="row">
-                                    <th width="10%">SI No.</th>
+                                    <th width="5%">SI No.</th>
                                     <th width="10%">Invoice No</th>
                                     <th width="20%">Dealer Name</th>
+                                    <th width="10%">Dealer Code</th>
                                     <th width="10%">Memo No</th>
                                     <th width="10%">Date</th>
                                     <th width="15%">Download</th>
@@ -35,10 +36,11 @@
                                         <td class="sorting_1">{{ ++$key }}</td>
                                         <td class="text-uppercase">{{ $sell_detail->invoice_no }}</td>
                                         <td>{{ $sell_detail->dealer->name }}</td>
+                                        <td>{{ $sell_detail->dealer->dealer_code }}</td>
                                         <td>{{ $sell_detail->memo_no }}</td>
                                         <td>{{ $sell_detail->date }}</td>
                                         <td>
-                                            <a href="{{ route('sell-product.dealer.pdf', $sell_detail->id) }}" class="btn btn-sm btn-outline-info">
+                                            <a href="{{ route('sell-product.own.pdf', $sell_detail->id) }}" class="btn btn-sm btn-outline-info">
                                                 <i class="fa fa-download"></i> Dealer
                                             </a>
                                             <a href="{{ route('sell-product.own.pdf', $sell_detail->id) }}" class="btn btn-sm btn-outline-info">
@@ -46,7 +48,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="{{ route('sell-product.dealer.show', $sell_detail->id) }}" class="btn btn-sm btn-outline-info">
+                                            <a href="{{ route('user.sell-products.show', $sell_detail->id) }}" class="btn btn-sm btn-outline-info">
                                                 <i class="fa fa-eye"></i> Dealer
                                             </a>
                                             <a href="{{ route('user.sell-products.show', $sell_detail->id) }}" class="btn btn-sm btn-outline-info">

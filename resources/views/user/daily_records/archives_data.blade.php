@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-md-12">
                     <hr>
-                    <h3>Total: {{ $credits->sum('amount') - $debits->sum('amount') }}</h3>
+                    <h3>Total: {{ $previous_amount[0]->previous_amount+$credits->sum('amount') - $debits->sum('amount') }}</h3>
                 </div>
             </div>
         </div>

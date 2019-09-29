@@ -26,6 +26,11 @@
                     <td>{{ $dealer->email }}</td>
                 </tr>
                 <tr>
+                    <td>Dealer Code</td>
+                    <td>:</td>
+                    <td>{{ $dealer->dealer_code }}</td>
+                </tr>
+                <tr>
                     <td>Phone</td>
                     <td>:</td>
                     <td>{{ $dealer->phone }}</td>
@@ -54,7 +59,12 @@
                     <td>Previous Due</td>
                     <td>:</td>
                     <td class="text-justify text-danger">
-                        <h3>৳{{ $dealer_due->total_amount_due }}</h3>
+                        <h3>
+                            ৳{{ $dealer_due->total_amount_due }} 
+                            <small>
+                                <a href="{{ route('admin.dealers.previous-due', $dealer->id) }}" class="ml-5 btn btn-sm btn-outline-primary">Add Previous Due</a>
+                            </small>
+                        </h3>
                     </td>
                 </tr>
             </table>
@@ -67,7 +77,13 @@
     <div class="card card-primary card-outline">
         <div class="card-header">
             <div class="d-flex">
-                <h5>Purchase History</h5>
+                <div class="p-2">
+                    <h5>Purchase History</h5>
+                </div>
+                <div class="ml-auto p-2">
+                    <a href="{{ route('admin.dealers.laser',$dealer->id) }}" class="btn btn-sm btn-outline-primary"> <i
+                            class="fa fa-download"></i> This Year Laser</a>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -84,7 +100,9 @@
                         @foreach ($purchase_history as $key => $item)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td class="text-uppercase">{{ $item->invoice_no }}</td>
+                                <td class="text-uppercase">
+                                    <a href="{{ route('user.sell-products.show', $item->id) }}">{{ $item->invoice_no }}</a>
+                                </td>
                                 <td>{{ $item->grand_total }}</td>
                                 <td>{{ $item->amount_pay }}</td>
                                 <td>{{ $item->amount_due }}</td>

@@ -24,7 +24,7 @@
                             <label for="dealer">Dealer </label>
                             <select required @change.prevent="setDealer()" name="dealer" id="dealer" class="form-control" v-model="form.dealer" :class="{ 'is-invalid': form.errors.has('dealer')}">
                                 <option value="">Choose dealer</option>
-                                <option v-for="(dealer,index) in dealers" :key="index" :value="dealer">{{ dealer.name }}</option>
+                                <option v-for="(dealer,index) in dealers" :key="index" :value="dealer">{{ 'MSC-'+dealer.code+' ['+dealer.name+']' }}</option>
                             </select>
                             <has-error :form="form" field="dealer"></has-error>
                         </div>
@@ -108,16 +108,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="grand_total" class="col-md-3">Amount Due : </label>
-                            <div class="col-md-9">
-                                <input type="text" readonly name="amount_due" class="bg-white form-control" :value="parseFloat(form.amount_due<0?0:form.amount_due).toFixed(2)" :class="{ 'is-invalid': form.errors.has('amount_due')}">
-                                <has-error :form="form" field="amount_due"></has-error>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label for="previous_due" class="col-md-3">Previous Due : </label>
                             <div class="col-md-9">
-                                <input type="text" readonly name="previous_due" class="bg-white form-control" :value="previousDueCount()" :class="{ 'is-invalid': form.errors.has('previous_due')}">
+                                <input type="text" readonly name="previous_due" class="bg-white form-control" :value="form.previous_due" :class="{ 'is-invalid': form.errors.has('previous_due')}">
                                 <has-error :form="form" field="previous_due"></has-error>
                             </div>
                         </div>
@@ -128,18 +121,25 @@
                                 <has-error :form="form" field="total_due"></has-error>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="grand_total" class="col-md-3">Total Amount : </label>
                             <div class="col-md-9">
                                 <input type="text" readonly name="total_due" class="bg-white form-control" :value="parseFloat(form.grand_total+form.previous_due).toFixed(2)" :class="{ 'is-invalid': form.errors.has('total_due')}">
                                 <has-error :form="form" field="total_due"></has-error>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group row">
                             <label for="grand_total" class="col-md-3">Amount Pay : </label>
                             <div class="col-md-9">
                                 <input @keyup="amountDueCount" name="amount_pay" type="text" class="bg-white form-control" v-model="form.amount_pay" :class="{ 'is-invalid': form.errors.has('amount_pay')}">
                                 <has-error :form="form" field="amount_pay"></has-error>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="grand_total" class="col-md-3">Amount Due : </label>
+                            <div class="col-md-9">
+                                <input type="text" readonly name="amount_due" class="bg-white form-control" :value="parseFloat(form.amount_due<0?0:form.amount_due).toFixed(2)" :class="{ 'is-invalid': form.errors.has('amount_due')}">
+                                <has-error :form="form" field="amount_due"></has-error>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -243,6 +243,7 @@ export default {
             .then(res => {
                 this.dealers = res.data.data
                 this.form.dealer = this.dealers.find(({id}) => id == this.sell_product.dealer_id)
+                this.previousDueCount()
             })
         },
         storeData(){
@@ -263,7 +264,7 @@ export default {
             }
         },
         setDealer(){
-            this.totalDueCount();
+            this.previousDueCount();
         },
         setCurrentSellItem(item, packet_sizes){
             var temp_item = {
@@ -282,7 +283,11 @@ export default {
                 this.form.sell_items.push(temp_item)
         },
         previousDueCount(){
-            return parseFloat(this.form.previous_due = (this.form.dealer.total_amount_due - this.sell_product.amount_due)).toFixed(2)
+            axios.get(`/dealers/${this.form.dealer.id}/${this.sell_product.created_at}`)
+            .then(res => {
+                this.form.previous_due = res.data.data.total_amount_due
+            })
+            return parseFloat(this.form.previous_due).toFixed(2)
         },
         setSellItems(){
             this.sell_product.sell_product_items.map((item) => {

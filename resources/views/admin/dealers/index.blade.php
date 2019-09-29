@@ -21,6 +21,7 @@
                                 <tr role="row">
                                     <th width="9%">SI No.</th>
                                     <th width="15%">Name</th>
+                                    <th width="15%">Code</th>
                                     <th width="15%">Phone No</th>
                                     <th width="16%">Status</th>
                                     <th width="13%">Action</th>
@@ -32,6 +33,7 @@
                                     <tr role="row" class="odd">
                                         <td class="sorting_1">{{ ++$key }}</td>
                                         <td>{{ $dealer->name }}</td>
+                                        <td>{{ $dealer->dealer_code }}</td>
                                         <td>{{ $dealer->phone }}</td>
                                         <td>{{ status($dealer->status) }} | 
                                             <a class="badge {{ $dealer->status ? 'badge-danger' : 'badge-success' }}" href="{{ route('admin.dealers.change_status', $dealer->id) }}">{{ status(!$dealer->status) }}</a>

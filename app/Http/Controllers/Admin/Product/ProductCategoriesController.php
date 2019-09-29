@@ -30,7 +30,7 @@ class ProductCategoriesController extends Controller
     public function store(Request $request)
     {
         $attribute = $request->validate([
-            'name' => 'required|min: 2|max: 191',
+            'name' => 'required|min: 2|max: 191| unique:product_categories',
         ]);
 
         if (ProductCategory::create($attribute)) {
@@ -61,7 +61,7 @@ class ProductCategoriesController extends Controller
     public function update(Request $request, ProductCategory $category)
     {
         $attribute = $request->validate([
-            'name' => 'required|min: 2|max: 191',
+            'name' => 'required|min: 2|max: 191| unique:product_categories,name,'.$category->id,
         ]);
         if ($category->update($attribute)) {
             Session::flash('success', 'Product Category has been updated successfully');

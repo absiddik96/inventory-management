@@ -69,7 +69,7 @@ class DailyRecordsController extends Controller
                 GROUP BY previous_amount';
 
         return response()->json([
-            'data' => collect(DB::select($SQL))[0]->previous_amount
+            'data' => count(collect(DB::select($SQL)))?collect(DB::select($SQL))[0]->previous_amount : 0
         ]);
     }
 

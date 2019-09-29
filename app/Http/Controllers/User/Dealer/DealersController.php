@@ -16,4 +16,11 @@ class DealersController extends Controller
             'data' => $this->dealerPaymentDue()
         ]);
     }
+
+    public function getDealerPreviousDueByDate($dealer_id,$date)
+    {
+        return response()->json([
+            'data' => $this->dealerPreviousDueByDate($dealer_id,$date)[0]
+        ]);
+    }
 }

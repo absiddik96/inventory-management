@@ -90,7 +90,7 @@
                 this.getDebitData();
             },
             todayTotal(){
-                return this.creditTotal - this.debitTotal;
+                return this.previous_amount + (this.creditTotal - this.debitTotal);
             }
         },
         created() {
