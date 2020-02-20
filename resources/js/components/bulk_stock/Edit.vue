@@ -69,10 +69,10 @@
                                     <td>{{ ++index }}</td>
                                     <td>{{ p_item.product.name }}</td>
                                     <td>
-                                        <input @keyup="grandTotal" type="number" class="form-control" min="0" v-model="p_item.quantity" required>
+                                        <input @keyup="grandTotal" step="0.01" type="number" class="form-control" min="0" v-model="p_item.quantity" required>
                                     </td>
                                     <td>
-                                        <input @keyup="grandTotal" type="number" class="form-control" min="0" v-model="p_item.unit_price" required>
+                                        <input @keyup="grandTotal" step="0.01" type="number" class="form-control" min="0" v-model="p_item.unit_price" required>
                                     </td>
                                     <td>{{ p_item.total = parseFloat((p_item.quantity*p_item.unit_price).toFixed(2)) }}</td>
                                     <td>
@@ -96,7 +96,7 @@
                         <div class="form-group row">
                             <label for="grand_total" class="col-md-3">Amount Pay : </label>
                             <div class="col-md-9">
-                                <input @keyup="amountDueCount" name="amount_pay" type="number" min="0" :max="form.grand_total" class="bg-white form-control" v-model="form.amount_pay" :class="{ 'is-invalid': form.errors.has('amount_pay')}">
+                                <input @keyup="amountDueCount" name="amount_pay" step="0.01" type="number" min="0" :max="form.grand_total" class="bg-white form-control" v-model="form.amount_pay" :class="{ 'is-invalid': form.errors.has('amount_pay')}">
                                 <has-error :form="form" field="amount_pay"></has-error>
                             </div>
                         </div>

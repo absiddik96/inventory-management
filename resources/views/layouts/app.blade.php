@@ -76,7 +76,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="{{ asset('img/user.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                        <img src="{{ asset('img/user.jpeg') }}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">{{ auth()->user()->name }}</a>
@@ -123,6 +123,16 @@
                             @include('layouts.side_menu.admin') 
                         @endif
                             @include('layouts.side_menu.user')
+
+                        @if (auth()->user()->is_admin)
+                            <!--salary -->
+                            <li class="nav-item">
+                                <a href="{{ route('admin.salaries.index') }}" class="nav-link {{ Request::is('admin/salaries*') ? 'active' : '' }}">
+                                    <i class="fas fa-money-bill-alt"></i>
+                                    <p>salary</p>
+                                </a>
+                            </li> 
+                        @endif
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin\Dealer;
 
 use App\Models\Dealer;
+use App\Models\SellProduct;
+use Illuminate\Http\Request;
 use App\Traits\Dealer as AppDealer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\CreateDealerRequest;
 use App\Http\Requests\UpdateDealerRequest;
-use App\Models\SellProduct;
+use Carbon\Carbon;
 
 class DealersController extends Controller
 {
@@ -22,14 +24,14 @@ class DealersController extends Controller
      */
     public function index()
     {
-        if(request()->expectsJson()){
+        if (request()->expectsJson()) {
             return response()->json([
-                'data' => Dealer::orderBy('name')->where('status',1)->get()
+                'data' => Dealer::orderBy('name')->where('status', 1)->get()
             ]);
         }
 
         return view('admin.dealers.index')
-                ->with('dealers', Dealer::orderBy('name')->get());
+            ->with('dealers', Dealer::orderBy('name')->get());
     }
 
     /**
@@ -39,7 +41,11 @@ class DealersController extends Controller
      */
     public function create()
     {
-        return view('admin.dealers.create');
+        $dealer = Dealer::orderBy('code', 'DESC')->first();
+        $code = $dealer? $dealer->code + 1 : 1;
+
+        return view('admin.dealers.create')
+            ->with('code', $code);
     }
 
     /**
@@ -65,9 +71,9 @@ class DealersController extends Controller
     public function show(Dealer $dealer)
     {
         return view('admin.dealers.show')
-                ->with('dealer', $dealer)
-                ->with('dealer_due', $this->dealerPreviousDue($dealer->id)[0])
-                ->with('purchase_history', SellProduct::where('dealer_id',$dealer->id)->orderBy('created_at','desc')->get());
+            ->with('dealer', $dealer)
+            ->with('dealer_due', $this->dealerPreviousDue($dealer->id)[0])
+            ->with('purchase_history', SellProduct::where('dealer_id', $dealer->id)->where('invoice_no', '!=', null)->orderBy('created_at', 'desc')->get());
     }
 
     /**
@@ -79,7 +85,7 @@ class DealersController extends Controller
     public function edit(Dealer $dealer)
     {
         return view('admin.dealers.edit')
-                ->with('dealer', $dealer);
+            ->with('dealer', $dealer);
     }
 
     /**
@@ -115,7 +121,7 @@ class DealersController extends Controller
     {
         if ($dealer->status) {
             $dealer->status = Dealer::DEACTIVE;
-        } else{
+        } else {
             $dealer->status = Dealer::ACTIVE;
         }
 
@@ -123,5 +129,34 @@ class DealersController extends Controller
             Session::flash('info', 'Dealer status has been changed.');
         }
         return back();
+    }
+
+    public function previousDue(Dealer $dealer)
+    {
+        return view('admin.dealers.previous_due')
+            ->with('dealer', $dealer);
+    }
+
+    public function storePreviousDue(Request $request, Dealer $dealer)
+    {
+        $this->validate($request, [
+            'previous_due' => 'required|numeric'
+        ]);
+
+        $request['dealer_id'] = $dealer->id;
+        $request['date'] = Carbon::now();
+        $request['grand_total'] = $request->previous_due;
+        $request['amount_pay'] = 0;
+        $request['amount_due'] = $request->previous_due;
+        $request['payment_type'] = 0;
+        $request['is_verified'] = 0;
+
+        SellProduct::create($request->all());
+
+        return redirect()->route('admin.dealers.show', $dealer->id);
+    }
+
+    public function laser(){
+        
     }
 }

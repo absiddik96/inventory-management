@@ -24,7 +24,7 @@
                             <label for="dealer">Dealer </label>
                             <select required @change.prevent="setDealer()" name="dealer" id="dealer" class="form-control" v-model="form.dealer" :class="{ 'is-invalid': form.errors.has('dealer')}">
                                 <option value="">Choose dealer</option>
-                                <option v-for="(dealer,index) in dealers" :key="index" :value="dealer">{{ dealer.name }}</option>
+                                <option v-for="(dealer,index) in dealers" :key="index" :value="dealer">{{ 'MSC-'+dealer.code+' ['+dealer.name+']' }}</option>
                             </select>
                             <has-error :form="form" field="dealer"></has-error>
                         </div>
@@ -115,13 +115,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="grand_total" class="col-md-3">Amount Due : </label>
-                            <div class="col-md-9">
-                                <input type="text" readonly name="amount_due" class="bg-white form-control" :value="form.amount_due<0?0:form.amount_due" :class="{ 'is-invalid': form.errors.has('amount_due')}">
-                                <has-error :form="form" field="amount_due"></has-error>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label for="grand_total" class="col-md-3">Total Due : </label>
                             <div class="col-md-9">
                                 <input type="text" readonly name="total_due" class="bg-white form-control" :value="form.total_due" :class="{ 'is-invalid': form.errors.has('total_due')}">
@@ -133,6 +126,13 @@
                             <div class="col-md-9">
                                 <input @keyup="amountDueCount" name="amount_pay" type="text" class="bg-white form-control" v-model="form.amount_pay" :class="{ 'is-invalid': form.errors.has('amount_pay')}">
                                 <has-error :form="form" field="amount_pay"></has-error>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="grand_total" class="col-md-3">Amount Due : </label>
+                            <div class="col-md-9">
+                                <input type="text" readonly name="amount_due" class="bg-white form-control" :value="form.amount_due<0?0:form.amount_due" :class="{ 'is-invalid': form.errors.has('amount_due')}">
+                                <has-error :form="form" field="amount_due"></has-error>
                             </div>
                         </div>
                         <div class="form-group row">

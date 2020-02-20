@@ -50,11 +50,7 @@ class BankTransactionsController extends Controller
             'branch'           => 'required',
             'bank_account'     => 'required',
             'transaction_type' => 'required',
-            'amount'           => [
-                'required', 
-                (($request->transaction_type == 0 && $bank_account)?new LessThanOrEqual($bank_account->totalAmount()) : 
-                                                                    new GreaterThanOrEqual(1))
-            ],
+            'amount'           => 'required',
             'transaction_date' => 'required',
         ]);
 
@@ -114,10 +110,7 @@ class BankTransactionsController extends Controller
             'branch'           => 'required',
             'bank_account'     => 'required',
             'transaction_type' => 'required',
-            'amount'           => [
-                'required', 
-                (($request->transaction_type == 0 && $bank_account)?new LessThanOrEqual($bank_account->totalAmount()):'')
-            ],
+            'amount'           => 'required',
             'transaction_date' => 'required',
         ]);
 

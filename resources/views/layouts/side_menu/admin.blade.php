@@ -32,6 +32,14 @@
                 <p>Dealers</p>
             </a>
         </li>
+        <!-- staff -->
+        <li class="nav-item">
+            <a href="{{ route('admin.staffs.index') }}"
+                class="nav-link {{ Request::is('admin/staffs*') ? 'active' : '' }}">
+                <i class="fas fa-circle-notch"></i>
+                <p>Staff</p>
+            </a>
+        </li>
     </ul>
 </li>
 

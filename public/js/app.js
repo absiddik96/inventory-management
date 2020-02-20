@@ -30969,8 +30969,8 @@ module.exports = Cancel;
             this.amountDueCount();
         },
         amountDueCount: function amountDueCount() {
-            this.form.amount_due = parseFloat(this.form.grand_total).toFixed(2) - this.form.amount_pay;
             this.totalDueCount();
+            this.form.amount_due = parseFloat(this.form.total_due).toFixed(2) - parseFloat(this.form.amount_pay).toFixed(2);
         },
         grandTotalCounter: function grandTotalCounter() {
             return this.form.grand_total = this.form.sell_items.reduce(function (total, item) {
@@ -30978,7 +30978,7 @@ module.exports = Cancel;
             }, 0);
         },
         totalDueCount: function totalDueCount() {
-            this.form.total_due = this.form.previous_due + this.form.amount_due;
+            this.form.total_due = Number(this.form.previous_due) + Number(this.form.grand_total);
         },
         removeItem: function removeItem(index) {
             var _this6 = this;
@@ -68672,191 +68672,179 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables B
  * controls using Bootstrap. See http://datatables.net/manual/styling/bootstrap
  * for further information.
  */
-(function(factory) {
-    if (true) {
-        // AMD
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(4), __webpack_require__(176)], __WEBPACK_AMD_DEFINE_RESULT__ = (function($) {
-            return factory($, window, document);
-        }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+(function( factory ){
+	if ( true ) {
+		// AMD
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(4), __webpack_require__(176)], __WEBPACK_AMD_DEFINE_RESULT__ = (function ( $ ) {
+			return factory( $, window, document );
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else if (typeof exports === "object") {
-        // CommonJS
-        module.exports = function(root, $) {
-            if (!root) {
-                root = window;
-            }
+	}
+	else if ( typeof exports === 'object' ) {
+		// CommonJS
+		module.exports = function (root, $) {
+			if ( ! root ) {
+				root = window;
+			}
 
-            if (!$ || !$.fn.dataTable) {
-                // Require DataTables, which attaches to jQuery, including
-                // jQuery if needed and have a $ property so we can access the
-                // jQuery object that is used
-                $ = require("datatables.net")(root, $).$;
-            }
+			if ( ! $ || ! $.fn.dataTable ) {
+				// Require DataTables, which attaches to jQuery, including
+				// jQuery if needed and have a $ property so we can access the
+				// jQuery object that is used
+				$ = require('datatables.net')(root, $).$;
+			}
 
-            return factory($, root, root.document);
-        };
-    } else {
-        // Browser
-        factory(jQuery, window, document);
-    }
-})(function($, window, document, undefined) {
-    "use strict";
-    var DataTable = $.fn.dataTable;
+			return factory( $, root, root.document );
+		};
+	}
+	else {
+		// Browser
+		factory( jQuery, window, document );
+	}
+}(function( $, window, document, undefined ) {
+'use strict';
+var DataTable = $.fn.dataTable;
 
-    /* Set the defaults for DataTables initialisation */
-    $.extend(true, DataTable.defaults, {
-        dom:
-            "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-        renderer: "bootstrap"
-    });
 
-    /* Default class modification */
-    $.extend(DataTable.ext.classes, {
-        sWrapper: "dataTables_wrapper dt-bootstrap4",
-        sFilterInput: "form-control form-control-sm",
-        sLengthSelect:
-            "custom-select custom-select-sm form-control form-control-sm",
-        sProcessing: "dataTables_processing card",
-        sPageButton: "paginate_button page-item"
-    });
+/* Set the defaults for DataTables initialisation */
+$.extend( true, DataTable.defaults, {
+	dom:
+		"<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+		"<'row'<'col-sm-12'tr>>" +
+		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+	renderer: 'bootstrap'
+} );
 
-    /* Bootstrap paging button renderer */
-    DataTable.ext.renderer.pageButton.bootstrap = function(
-        settings,
-        host,
-        idx,
-        buttons,
-        page,
-        pages
-    ) {
-        var api = new DataTable.Api(settings);
-        var classes = settings.oClasses;
-        var lang = settings.oLanguage.oPaginate;
-        var aria = settings.oLanguage.oAria.paginate || {};
-        var btnDisplay,
-            btnClass,
-            counter = 0;
 
-        var attach = function(container, buttons) {
-            var i, ien, node, button;
-            var clickHandler = function(e) {
-                e.preventDefault();
-                if (
-                    !$(e.currentTarget).hasClass("disabled") &&
-                    api.page() != e.data.action
-                ) {
-                    api.page(e.data.action).draw("page");
-                }
-            };
+/* Default class modification */
+$.extend( DataTable.ext.classes, {
+	sWrapper:      "dataTables_wrapper dt-bootstrap4",
+	sFilterInput:  "form-control form-control-sm",
+	sLengthSelect: "custom-select custom-select-sm form-control form-control-sm",
+	sProcessing:   "dataTables_processing card",
+	sPageButton:   "paginate_button page-item"
+} );
 
-            for (i = 0, ien = buttons.length; i < ien; i++) {
-                button = buttons[i];
 
-                if ($.isArray(button)) {
-                    attach(container, button);
-                } else {
-                    btnDisplay = "";
-                    btnClass = "";
+/* Bootstrap paging button renderer */
+DataTable.ext.renderer.pageButton.bootstrap = function ( settings, host, idx, buttons, page, pages ) {
+	var api     = new DataTable.Api( settings );
+	var classes = settings.oClasses;
+	var lang    = settings.oLanguage.oPaginate;
+	var aria = settings.oLanguage.oAria.paginate || {};
+	var btnDisplay, btnClass, counter=0;
 
-                    switch (button) {
-                        case "ellipsis":
-                            btnDisplay = "&#x2026;";
-                            btnClass = "disabled";
-                            break;
+	var attach = function( container, buttons ) {
+		var i, ien, node, button;
+		var clickHandler = function ( e ) {
+			e.preventDefault();
+			if ( !$(e.currentTarget).hasClass('disabled') && api.page() != e.data.action ) {
+				api.page( e.data.action ).draw( 'page' );
+			}
+		};
 
-                        case "first":
-                            btnDisplay = lang.sFirst;
-                            btnClass = button + (page > 0 ? "" : " disabled");
-                            break;
+		for ( i=0, ien=buttons.length ; i<ien ; i++ ) {
+			button = buttons[i];
 
-                        case "previous":
-                            btnDisplay = lang.sPrevious;
-                            btnClass = button + (page > 0 ? "" : " disabled");
-                            break;
+			if ( $.isArray( button ) ) {
+				attach( container, button );
+			}
+			else {
+				btnDisplay = '';
+				btnClass = '';
 
-                        case "next":
-                            btnDisplay = lang.sNext;
-                            btnClass =
-                                button + (page < pages - 1 ? "" : " disabled");
-                            break;
+				switch ( button ) {
+					case 'ellipsis':
+						btnDisplay = '&#x2026;';
+						btnClass = 'disabled';
+						break;
 
-                        case "last":
-                            btnDisplay = lang.sLast;
-                            btnClass =
-                                button + (page < pages - 1 ? "" : " disabled");
-                            break;
+					case 'first':
+						btnDisplay = lang.sFirst;
+						btnClass = button + (page > 0 ?
+							'' : ' disabled');
+						break;
 
-                        default:
-                            btnDisplay = button + 1;
-                            btnClass = page === button ? "active" : "";
-                            break;
-                    }
+					case 'previous':
+						btnDisplay = lang.sPrevious;
+						btnClass = button + (page > 0 ?
+							'' : ' disabled');
+						break;
 
-                    if (btnDisplay) {
-                        node = $("<li>", {
-                            class: classes.sPageButton + " " + btnClass,
-                            id:
-                                idx === 0 && typeof button === "string"
-                                    ? settings.sTableId + "_" + button
-                                    : null
-                        })
-                            .append(
-                                $("<a>", {
-                                    href: "#",
-                                    "aria-controls": settings.sTableId,
-                                    "aria-label": aria[button],
-                                    "data-dt-idx": counter,
-                                    tabindex: settings.iTabIndex,
-                                    class: "page-link"
-                                }).html(btnDisplay)
-                            )
-                            .appendTo(container);
+					case 'next':
+						btnDisplay = lang.sNext;
+						btnClass = button + (page < pages-1 ?
+							'' : ' disabled');
+						break;
 
-                        settings.oApi._fnBindAction(
-                            node,
-                            { action: button },
-                            clickHandler
-                        );
+					case 'last':
+						btnDisplay = lang.sLast;
+						btnClass = button + (page < pages-1 ?
+							'' : ' disabled');
+						break;
 
-                        counter++;
-                    }
-                }
-            }
-        };
+					default:
+						btnDisplay = button + 1;
+						btnClass = page === button ?
+							'active' : '';
+						break;
+				}
 
-        // IE9 throws an 'unknown error' if document.activeElement is used
-        // inside an iframe or frame.
-        var activeEl;
+				if ( btnDisplay ) {
+					node = $('<li>', {
+							'class': classes.sPageButton+' '+btnClass,
+							'id': idx === 0 && typeof button === 'string' ?
+								settings.sTableId +'_'+ button :
+								null
+						} )
+						.append( $('<a>', {
+								'href': '#',
+								'aria-controls': settings.sTableId,
+								'aria-label': aria[ button ],
+								'data-dt-idx': counter,
+								'tabindex': settings.iTabIndex,
+								'class': 'page-link'
+							} )
+							.html( btnDisplay )
+						)
+						.appendTo( container );
 
-        try {
-            // Because this approach is destroying and recreating the paging
-            // elements, focus is lost on the select button which is bad for
-            // accessibility. So we want to restore focus once the draw has
-            // completed
-            activeEl = $(host)
-                .find(document.activeElement)
-                .data("dt-idx");
-        } catch (e) {}
+					settings.oApi._fnBindAction(
+						node, {action: button}, clickHandler
+					);
 
-        attach(
-            $(host)
-                .empty()
-                .html('<ul class="pagination"/>')
-                .children("ul"),
-            buttons
-        );
+					counter++;
+				}
+			}
+		}
+	};
 
-        if (activeEl !== undefined) {
-            $(host)
-                .find("[data-dt-idx=" + activeEl + "]")
-                .focus();
-        }
-    };
+	// IE9 throws an 'unknown error' if document.activeElement is used
+	// inside an iframe or frame. 
+	var activeEl;
 
-    return DataTable;
-});
+	try {
+		// Because this approach is destroying and recreating the paging
+		// elements, focus is lost on the select button which is bad for
+		// accessibility. So we want to restore focus once the draw has
+		// completed
+		activeEl = $(host).find(document.activeElement).data('dt-idx');
+	}
+	catch (e) {}
+
+	attach(
+		$(host).empty().html('<ul class="pagination"/>').children('ul'),
+		buttons
+	);
+
+	if ( activeEl !== undefined ) {
+		$(host).find( '[data-dt-idx='+activeEl+']' ).focus();
+	}
+};
+
+
+return DataTable;
+}));
 
 
 /***/ }),
@@ -89769,7 +89757,11 @@ var render = function() {
                                 }
                               ],
                               staticClass: "form-control",
-                              attrs: { type: "number", required: "" },
+                              attrs: {
+                                step: "0.01",
+                                type: "number",
+                                required: ""
+                              },
                               domProps: { value: p_item.quantity },
                               on: {
                                 keyup: _vm.grandTotal,
@@ -89798,7 +89790,11 @@ var render = function() {
                                 }
                               ],
                               staticClass: "form-control",
-                              attrs: { type: "number", required: "" },
+                              attrs: {
+                                step: "0.01",
+                                type: "number",
+                                required: ""
+                              },
                               domProps: { value: p_item.unit_price },
                               on: {
                                 keyup: _vm.grandTotal,
@@ -89923,6 +89919,7 @@ var render = function() {
                         },
                         attrs: {
                           name: "amount_pay",
+                          step: "0.01",
                           type: "number",
                           min: "0",
                           max: _vm.form.grand_total
@@ -91116,7 +91113,12 @@ var render = function() {
                                 }
                               ],
                               staticClass: "form-control",
-                              attrs: { type: "number", min: "0", required: "" },
+                              attrs: {
+                                step: "0.01",
+                                type: "number",
+                                min: "0",
+                                required: ""
+                              },
                               domProps: { value: p_item.quantity },
                               on: {
                                 keyup: _vm.grandTotal,
@@ -91145,7 +91147,12 @@ var render = function() {
                                 }
                               ],
                               staticClass: "form-control",
-                              attrs: { type: "number", min: "0", required: "" },
+                              attrs: {
+                                step: "0.01",
+                                type: "number",
+                                min: "0",
+                                required: ""
+                              },
                               domProps: { value: p_item.unit_price },
                               on: {
                                 keyup: _vm.grandTotal,
@@ -91270,6 +91277,7 @@ var render = function() {
                         },
                         attrs: {
                           name: "amount_pay",
+                          step: "0.01",
                           type: "number",
                           min: "0",
                           max: _vm.form.grand_total
@@ -94356,7 +94364,17 @@ var render = function() {
                           return _c(
                             "option",
                             { key: index, domProps: { value: dealer } },
-                            [_vm._v(_vm._s(dealer.name))]
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  "MSC-" +
+                                    dealer.code +
+                                    " [" +
+                                    dealer.name +
+                                    "]"
+                                )
+                              )
+                            ]
                           )
                         })
                       ],
@@ -94850,41 +94868,6 @@ var render = function() {
                   _c(
                     "label",
                     { staticClass: "col-md-3", attrs: { for: "grand_total" } },
-                    [_vm._v("Amount Due : ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-md-9" },
-                    [
-                      _c("input", {
-                        staticClass: "bg-white form-control",
-                        class: {
-                          "is-invalid": _vm.form.errors.has("amount_due")
-                        },
-                        attrs: {
-                          type: "text",
-                          readonly: "",
-                          name: "amount_due"
-                        },
-                        domProps: {
-                          value:
-                            _vm.form.amount_due < 0 ? 0 : _vm.form.amount_due
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("has-error", {
-                        attrs: { form: _vm.form, field: "amount_due" }
-                      })
-                    ],
-                    1
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    { staticClass: "col-md-3", attrs: { for: "grand_total" } },
                     [_vm._v("Total Due : ")]
                   ),
                   _vm._v(" "),
@@ -94956,6 +94939,41 @@ var render = function() {
                       _vm._v(" "),
                       _c("has-error", {
                         attrs: { form: _vm.form, field: "amount_pay" }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-3", attrs: { for: "grand_total" } },
+                    [_vm._v("Amount Due : ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-md-9" },
+                    [
+                      _c("input", {
+                        staticClass: "bg-white form-control",
+                        class: {
+                          "is-invalid": _vm.form.errors.has("amount_due")
+                        },
+                        attrs: {
+                          type: "text",
+                          readonly: "",
+                          name: "amount_due"
+                        },
+                        domProps: {
+                          value:
+                            _vm.form.amount_due < 0 ? 0 : _vm.form.amount_due
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "amount_due" }
                       })
                     ],
                     1
@@ -95729,6 +95747,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     var id = _ref.id;
                     return id == _this.sell_product.dealer_id;
                 });
+                _this.previousDueCount();
             });
         },
         storeData: function storeData() {
@@ -95750,7 +95769,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         setDealer: function setDealer() {
-            this.totalDueCount();
+            this.previousDueCount();
         },
         setCurrentSellItem: function setCurrentSellItem(item, packet_sizes) {
             var temp_item = {
@@ -95772,16 +95791,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.form.sell_items.push(temp_item);
         },
         previousDueCount: function previousDueCount() {
-            return parseFloat(this.form.previous_due = this.form.dealer.total_amount_due - this.sell_product.amount_due).toFixed(2);
+            var _this3 = this;
+
+            axios.get('/dealers/' + this.form.dealer.id + '/' + this.sell_product.created_at).then(function (res) {
+                _this3.form.previous_due = res.data.data.total_amount_due;
+            });
+            return parseFloat(this.form.previous_due).toFixed(2);
         },
         setSellItems: function setSellItems() {
-            var _this3 = this;
+            var _this4 = this;
 
             this.sell_product.sell_product_items.map(function (item) {
                 axios.get('/stock-packet-sizes/' + item.stock_id + '/stock').then(function (res) {
                     var sell_packet_sizes = res.data.data;
-                    _this3.setCurrentSellItem(item, sell_packet_sizes);
-                    _this3.grandTotal();
+                    _this4.setCurrentSellItem(item, sell_packet_sizes);
+                    _this4.grandTotal();
                 });
             });
         }
@@ -95929,7 +95953,17 @@ var render = function() {
                           return _c(
                             "option",
                             { key: index, domProps: { value: dealer } },
-                            [_vm._v(_vm._s(dealer.name))]
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  "MSC-" +
+                                    dealer.code +
+                                    " [" +
+                                    dealer.name +
+                                    "]"
+                                )
+                              )
+                            ]
                           )
                         })
                       ],
@@ -96390,42 +96424,6 @@ var render = function() {
                 _c("div", { staticClass: "form-group row" }, [
                   _c(
                     "label",
-                    { staticClass: "col-md-3", attrs: { for: "grand_total" } },
-                    [_vm._v("Amount Due : ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-md-9" },
-                    [
-                      _c("input", {
-                        staticClass: "bg-white form-control",
-                        class: {
-                          "is-invalid": _vm.form.errors.has("amount_due")
-                        },
-                        attrs: {
-                          type: "text",
-                          readonly: "",
-                          name: "amount_due"
-                        },
-                        domProps: {
-                          value: parseFloat(
-                            _vm.form.amount_due < 0 ? 0 : _vm.form.amount_due
-                          ).toFixed(2)
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("has-error", {
-                        attrs: { form: _vm.form, field: "amount_due" }
-                      })
-                    ],
-                    1
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
                     { staticClass: "col-md-3", attrs: { for: "previous_due" } },
                     [_vm._v("Previous Due : ")]
                   ),
@@ -96444,7 +96442,7 @@ var render = function() {
                           readonly: "",
                           name: "previous_due"
                         },
-                        domProps: { value: _vm.previousDueCount() }
+                        domProps: { value: _vm.form.previous_due }
                       }),
                       _vm._v(" "),
                       _c("has-error", {
@@ -96478,42 +96476,6 @@ var render = function() {
                         },
                         domProps: {
                           value: parseFloat(_vm.form.total_due).toFixed(2)
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("has-error", {
-                        attrs: { form: _vm.form, field: "total_due" }
-                      })
-                    ],
-                    1
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    { staticClass: "col-md-3", attrs: { for: "grand_total" } },
-                    [_vm._v("Total Amount : ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-md-9" },
-                    [
-                      _c("input", {
-                        staticClass: "bg-white form-control",
-                        class: {
-                          "is-invalid": _vm.form.errors.has("total_due")
-                        },
-                        attrs: {
-                          type: "text",
-                          readonly: "",
-                          name: "total_due"
-                        },
-                        domProps: {
-                          value: parseFloat(
-                            _vm.form.grand_total + _vm.form.previous_due
-                          ).toFixed(2)
                         }
                       }),
                       _vm._v(" "),
@@ -96568,6 +96530,42 @@ var render = function() {
                       _vm._v(" "),
                       _c("has-error", {
                         attrs: { form: _vm.form, field: "amount_pay" }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-3", attrs: { for: "grand_total" } },
+                    [_vm._v("Amount Due : ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-md-9" },
+                    [
+                      _c("input", {
+                        staticClass: "bg-white form-control",
+                        class: {
+                          "is-invalid": _vm.form.errors.has("amount_due")
+                        },
+                        attrs: {
+                          type: "text",
+                          readonly: "",
+                          name: "amount_due"
+                        },
+                        domProps: {
+                          value: parseFloat(
+                            _vm.form.amount_due < 0 ? 0 : _vm.form.amount_due
+                          ).toFixed(2)
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "amount_due" }
                       })
                     ],
                     1
@@ -97188,7 +97186,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getDebitData();
         },
         todayTotal: function todayTotal() {
-            return this.creditTotal - this.debitTotal;
+            return this.previous_amount + (this.creditTotal - this.debitTotal);
         }
     },
     created: function created() {

@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['auth']], function () {
     // Dealers
     Route::get('/dealers', 'User\Dealer\DealersController@index')->name('user.dealers');
+    Route::get('/dealers/{id}/{date}', 'User\Dealer\DealersController@getDealerPreviousDueByDate')->name('user.dealer-due.date');
     // Stock
     Route::resource('/sell-products', 'User\SellProduct\SellProductsController', ['as' => 'user']);
     Route::get('/sell-product/{sellProduct}/dealer-show', 'User\SellProduct\SellProductsController@dealerShow')->name('sell-product.dealer.show');
@@ -69,6 +70,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     //Dealer
     Route::resource('/dealers', 'Admin\Dealer\DealersController', ['as' => 'admin']);
     Route::get('/dealer/{dealer}/status', 'Admin\Dealer\DealersController@changeStatus')->name('admin.dealers.change_status');
+    Route::get('/dealer/{dealer}/previous-due', 'Admin\Dealer\DealersController@previousDue')->name('admin.dealers.previous-due');
+    Route::post('/dealer/{dealer}/previous-due', 'Admin\Dealer\DealersController@storePreviousDue')->name('admin.dealers.previous-due.store');
+    Route::get('/dealer/{dealer}/laser', 'Admin\Dealer\DealersController@laser')->name('admin.dealers.laser');
     //Bulk Stock
     Route::resource('/bulk-stock', 'Admin\BulkStock\BulkStocksController', ['as' => 'admin']);
     // Category Product
@@ -85,4 +89,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     Route::put('/stock-item/{item}', 'Admin\Stock\StocksController@itemUpdate')->name('admin.stock.item.update');
     Route::delete('/stock-item/{item}/delete', 'Admin\Stock\StocksController@itemDelete')->name('admin.stock.item.delete');
     Route::post('/stock-item', 'Admin\Stock\StocksController@itemCreate')->name('admin.stock.item.store');
+
+    // Staff
+    Route::resource('/staffs', 'Admin\StaffController', ['as' => 'admin']);
+
+    // salary
+    Route::resource('/salaries', 'Admin\SalariesController', ['as' => 'admin'])->only(['index', 'create','store']);
 });

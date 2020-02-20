@@ -27,7 +27,7 @@ class SellProductsController extends Controller
     public function index()
     {
         return view('user.sell_product.index')
-            ->with('sell_details', SellProduct::orderBy('created_at','desc')->with('dealer')->get());
+            ->with('sell_details', SellProduct::orderBy('created_at','desc')->where('invoice_no','!=',null)->with('dealer')->get());
     }
 
     /**
@@ -117,7 +117,7 @@ class SellProductsController extends Controller
     public function show(SellProduct $sellProduct){
         return view('user.sell_product.show')
             ->with('sell_product', $sellProduct->load(['sellProductItems','sellProductItems.packetSize','transaction','transaction.bankAccount']))
-            ->with('dealer_previous_due',$this->dealerPreviousDue($sellProduct->dealer_id)[0]);
+            ->with('dealer_previous_due',$this->dealerPreviousDueByDate($sellProduct->dealer_id,$sellProduct->created_at)[0]);
     }
 
     public function PDFDownload(SellProduct $sellProduct){
@@ -125,7 +125,7 @@ class SellProductsController extends Controller
         ini_set('max_execution_time', 180);
 
         $sell_product = $sellProduct->load(['sellProductItems','sellProductItems.packetSize','transaction','transaction.bankAccount']);
-        $dealer_previous_due = $this->dealerPreviousDue($sellProduct->dealer_id)[0];
+        $dealer_previous_due = $this->dealerPreviousDueByDate($sellProduct->dealer_id,$sellProduct->created_at)[0];
 
         $pdf = PDF::loadView('PDF.sell_product.own',['sell_product'=>$sell_product,'dealer_previous_due'=>$dealer_previous_due]);
         $pdf->setPaper('A4', 'portal');
@@ -141,19 +141,15 @@ class SellProductsController extends Controller
     public function dealerShow(SellProduct $sellProduct){
         return view('user.sell_product.dealer_show')
             ->with('sell_product', $sellProduct->load(['sellProductItems','sellProductItems.packetSize','transaction','transaction.bankAccount']))
-            ->with('dealer_previous_due',$this->dealerPreviousDue($sellProduct->dealer_id)[0]);
+            ->with('dealer_previous_due',$this->dealerPreviousDueByDate($sellProduct->dealer_id,$sellProduct->created_at)[0]);
     }
 
     public function dealerPDF(SellProduct $sellProduct){
-        // return view('PDF.sell_product.dealer')
-        //     ->with('sell_product', $sellProduct->load(['sellProductItems','sellProductItems.packetSize','transaction','transaction.bankAccount']))
-        //     ->with('dealer_previous_due',$this->dealerPreviousDue($sellProduct->dealer_id)[0]);
-
         ini_set('memory_limit', '-1');
         ini_set('max_execution_time', 180);
 
         $sell_product = $sellProduct->load(['sellProductItems','sellProductItems.packetSize','transaction','transaction.bankAccount']);
-        $dealer_previous_due = $this->dealerPreviousDue($sellProduct->dealer_id)[0];
+        $dealer_previous_due = $this->dealerPreviousDueByDate($sellProduct->dealer_id,$sellProduct->created_at)[0];
 
         $pdf = PDF::loadView('PDF.sell_product.dealer',['sell_product'=>$sell_product,'dealer_previous_due'=>$dealer_previous_due]);
         $pdf->setPaper('A4', 'portal');

@@ -11,7 +11,11 @@ class Dealer extends Model
     const DEACTIVE = FALSE;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'nid', 'shop_name', 'trad_license', 'address', 'status'
+        'name', 'code', 'email', 'phone', 'nid', 'shop_name', 'trad_license', 'address', 'status'
+    ];
+
+    protected $appends = [
+        'dealer_code',
     ];
 
     public function transactions()
@@ -27,5 +31,10 @@ class Dealer extends Model
     public function previousDue()
     {
         return $this->buyProduct()->sum('amount_due');
+    }
+
+    public function getDealerCodeAttribute()
+    {
+        return 'MSC-'.$this->code;
     }
 }

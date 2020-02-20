@@ -8,7 +8,8 @@
                     <h5>Sell Product</h5>
                 </div>
                 <div class="ml-auto p-2">
-                    <a href="{{ route('user.sell-products.index') }}" class="btn btn-sm btn-outline-primary"> <i class="fa fa-arrow-left"></i> Back</a>
+                    <a href="{{ route('user.sell-products.index') }}" class="btn btn-sm btn-outline-primary"> <i
+                            class="fa fa-arrow-left"></i> Back</a>
                 </div>
             </div>
         </div>
@@ -17,7 +18,7 @@
                 <div class="col-md-6">
                     <table class="table no-border">
                         <tr>
-                            <th width="100px">Invoice No</th>
+                            <th width="120px">Invoice No</th>
                             <td width="1px">:</td>
                             <td class="text-uppercase">{{ $sell_product->invoice_no }}</td>
                         </tr>
@@ -25,6 +26,11 @@
                             <th>Dealer</th>
                             <td>:</td>
                             <td>{{ $sell_product->dealer->name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Dealer Code</th>
+                            <td>:</td>
+                            <td>{{ $sell_product->dealer->dealer_code }}</td>
                         </tr>
                         <tr>
                             <th>Date</th>
@@ -59,17 +65,17 @@
                         </thead>
                         <tbody>
                             @if ($sell_product->sellProductItems->count())
-                                @foreach ($sell_product->sellProductItems as $key => $item)
-                                    <tr>
-                                        <td>{{ ++$key }}</td>
-                                        <td>{{ $item->product->name }}</td>
-                                        <td>{{ $item->packetSize->packet_size }}</td>
-                                        <td>{{ $item->packet_quantity }}</td>
-                                        <td>{{ $item->sub_quantity }}</td>
-                                        <td>{{ $item->unit_price }}</td>
-                                        <td>{{ $item->total }}</td>
-                                    </tr>
-                                @endforeach
+                            @foreach ($sell_product->sellProductItems as $key => $item)
+                            <tr>
+                                <td>{{ ++$key }}</td>
+                                <td>{{ $item->product->name }}</td>
+                                <td>{{ $item->packetSize->packet_size }}</td>
+                                <td>{{ $item->packet_quantity }}</td>
+                                <td>{{ $item->sub_quantity }}</td>
+                                <td>{{ $item->unit_price }}</td>
+                                <td>{{ $item->total }}</td>
+                            </tr>
+                            @endforeach
                             @endif
                         </tbody>
                     </table>
@@ -82,19 +88,24 @@
                             <td>{{ $sell_product->grand_total }}</td>
                         </tr>
                         <tr>
-                            <th>Amount Due</th>
+                            <th>Previous Due</th>
                             <td>:</td>
-                            <td>{{ $sell_product->amount_due }}</td>
+                            <td>{{ $dealer_previous_due->total_amount_due??'0' }}</td>
                         </tr>
                         <tr>
                             <th>Total Due</th>
                             <td>:</td>
-                            <td>{{ ($dealer_previous_due->total_amount - $dealer_previous_due->total_amount_pay) }}</td>
+                            <td>{{ $total_due = ($dealer_previous_due->total_amount_due + $sell_product->grand_total) }}</td>
                         </tr>
                         <tr>
                             <th>Amount Pay</th>
                             <td>:</td>
                             <td>{{ $sell_product->amount_pay }}</td>
+                        </tr>
+                        <tr>
+                            <th>Amount Due</th>
+                            <td>:</td>
+                            <td>{{ $total_due - $sell_product->amount_pay }}</td>
                         </tr>
                         <tr>
                             <th>Is Verified</th>
@@ -107,24 +118,24 @@
                             <td>{{ paymentType($sell_product->payment_type) }}</td>
                         </tr>
                         @if (!$sell_product->is_verified && $sell_product->payment_type == 1)
-                            <tr>
-                                <th>Bank</th>
-                                <td>:</td>
-                                <td>{{ $sell_product->transaction->bankAccount->bank->name }}</td>
-                            </tr>
-                            <tr>
-                                <th>Branch</th>
-                                <td>:</td>
-                                <td>{{ $sell_product->transaction->bankAccount->branch->name }}</td>
-                            </tr>
-                            <tr>
-                                <th>A/C Number</th>
-                                <td>:</td>
-                                <td>
-                                    {{ $sell_product->transaction->bankAccount->account_number }} - 
-                                    ({{ $sell_product->transaction->bankAccount->account_holder }})
-                                </td>
-                            </tr>
+                        <tr>
+                            <th>Bank</th>
+                            <td>:</td>
+                            <td>{{ $sell_product->transaction->bankAccount->bank->name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Branch</th>
+                            <td>:</td>
+                            <td>{{ $sell_product->transaction->bankAccount->branch->name }}</td>
+                        </tr>
+                        <tr>
+                            <th>A/C Number</th>
+                            <td>:</td>
+                            <td>
+                                {{ $sell_product->transaction->bankAccount->account_number }} -
+                                ({{ $sell_product->transaction->bankAccount->account_holder }})
+                            </td>
+                        </tr>
                         @endif
                     </table>
                 </div>
